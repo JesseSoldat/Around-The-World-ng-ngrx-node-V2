@@ -1,0 +1,52 @@
+<div class="registerWrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-10 mx-auto">
+        <div class="card">
+          <div class="card-block">
+            <h1 class="card-title text-center">Register</h1>
+            <form [formGroup]="registerForm">
+              <!-- username -->
+              <app-form-group
+                [data$]="formGroupData$"
+                [errMsg]="controlNameErrs.username"
+                formControlName="username"
+                ngDefaultControl
+              >
+              </app-form-group>
+
+              <!-- email -->
+              <app-form-group
+                [data$]="formGroupData$"
+                [errMsg]="controlNameErrs.email"
+                formControlName="email"
+                ngDefaultControl
+              >
+              </app-form-group>
+
+              <!-- password group -->
+              <div formGroupName="passwordGroup">
+                <!-- password -->
+                <app-form-group
+                  [data$]="formGroupData$"
+                  [errMsg]="controlNameErrs.password"
+                  formControlName="password"
+                  ngDefaultControl
+                >
+                  <!-- confirm password -->
+                  <app-form-group
+                    [data$]="formGroupData$"
+                    [errMsg]="controlNameErrs.confirmPassword"
+                    formControlName="confirmPassword"
+                    ngDefaultControl
+                  >
+                  </app-form-group>
+                </app-form-group>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
