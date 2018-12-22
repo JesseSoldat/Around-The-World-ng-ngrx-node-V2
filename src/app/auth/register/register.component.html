@@ -5,13 +5,18 @@
         <div class="card">
           <div class="card-block">
             <h1 class="card-title text-center">Register</h1>
-            <form [formGroup]="registerForm">
+            <form
+              [formGroup]="registerForm"
+              (ngSubmit)="handleSubmit()"
+              novalidate
+            >
               <!-- username -->
               <app-form-group
                 [data$]="formGroupData$"
                 [errMsg]="controlNameErrs.username"
                 formControlName="username"
                 ngDefaultControl
+                (appBlurEvent)="handleBlurEvent($event)"
               >
               </app-form-group>
 
@@ -21,6 +26,7 @@
                 [errMsg]="controlNameErrs.email"
                 formControlName="email"
                 ngDefaultControl
+                (appBlurEvent)="handleBlurEvent($event)"
               >
               </app-form-group>
 
@@ -32,17 +38,27 @@
                   [errMsg]="controlNameErrs.password"
                   formControlName="password"
                   ngDefaultControl
+                  (appBlurEvent)="handleBlurEvent($event)"
                 >
-                  <!-- confirm password -->
-                  <app-form-group
-                    [data$]="formGroupData$"
-                    [errMsg]="controlNameErrs.confirmPassword"
-                    formControlName="confirmPassword"
-                    ngDefaultControl
-                  >
-                  </app-form-group>
+                </app-form-group>
+                <!-- confirm password -->
+                <app-form-group
+                  [data$]="formGroupData$"
+                  [errMsg]="controlNameErrs.confirmPassword"
+                  formControlName="confirmPassword"
+                  ngDefaultControl
+                  (appBlurEvent)="handleBlurEvent($event)"
+                >
                 </app-form-group>
               </div>
+
+              <button
+                type="submit"
+                [disabled]="!registerForm.valid"
+                class="btn btn-outline-dark btn-block btn-sm"
+              >
+                Submit
+              </button>
             </form>
           </div>
         </div>

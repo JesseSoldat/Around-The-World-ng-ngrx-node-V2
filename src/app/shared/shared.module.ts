@@ -3,11 +3,18 @@ import { CommonModule } from "@angular/common";
 // modules
 import { ReactiveFormsModule } from "@angular/forms";
 // components
-import { FormGroupComponent } from "./form-group/form-group.component";
+import { FormGroupComponent } from "./components/form-group/form-group.component";
+// directives
+import { BlurEventDirective } from "./directives/blur-event.directive";
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule],
-  declarations: [FormGroupComponent],
-  exports: [CommonModule, ReactiveFormsModule, FormGroupComponent]
+  declarations: [FormGroupComponent, BlurEventDirective],
+  exports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormGroupComponent,
+    BlurEventDirective
+  ]
 })
 export class SharedModule {}

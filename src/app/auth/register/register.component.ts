@@ -9,10 +9,13 @@ import { Observable, of } from "rxjs";
 
 // validators
 import { confirmPasswordValidator } from "../helpers/confirmPasswordValidator";
+// utils
+import { fieldValidation } from "../../_utils/validation/fieldValidation";
 // models
-import { formGroupData } from "../formGroupData";
+import { InputGroup } from "../../_models/input-group.model";
+import { Auth } from "../../_models/auth.model";
 // data
-import { InputGroup } from "src/app/_models/input-group.model";
+import { formGroupData } from "../formGroupData";
 
 @Component({
   selector: "app-register",
@@ -63,5 +66,44 @@ export class RegisterComponent implements OnInit {
         }
       )
     });
+  }
+
+  handleControlErrs(controlName: string) {
+    const currentControlErr = this.registerForm.get(controlName).errors;
+
+    this.controlNameErrs[controlName] = fieldValidation(currentControlErr);
+  }
+
+  handleGroupErrs(controlName: string) {
+    const group = this.registerForm.get("passwordGroup");
+
+    // group errors
+    if (controlName === "confirmPassword") {
+      return (this.controlNameErrs[controlName] = fieldValidation(
+        group.errors
+      ));
+    }
+
+    // single control errors
+    const control = group.get(controlName).errors;
+    this.controlNameErrs[controlName] = fieldValidation(control);
+  }
+
+  handleBlurEvent(controlName: string) {
+    if (controlName === "password" || controlName === "confirmPassword") {
+      return this.handleGroupErrs(controlName);
+    }
+
+    this.handleControlErrs(controlName);
+  }
+
+  handleSubmit() {
+    const values = this.registerForm.value;
+
+    const auth: Auth = {
+      username: values.username,
+      email: values.email,
+      password: values.password
+    };
   }
 }
