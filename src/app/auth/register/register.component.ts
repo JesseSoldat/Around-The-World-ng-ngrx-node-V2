@@ -14,8 +14,11 @@ import { fieldValidation } from "../../_utils/validation/fieldValidation";
 // models
 import { InputGroup } from "../../_models/input-group.model";
 import { Auth } from "../../_models/auth.model";
+import { HttpRes } from "../../_models/http-res.model";
 // data
 import { formGroupData } from "../formGroupData";
+// services
+import { AuthService } from "../../_services/auth.service";
 
 @Component({
   selector: "app-register",
@@ -34,7 +37,10 @@ export class RegisterComponent implements OnInit {
     confirmPassword: null
   };
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.formGroupData$ = of(formGroupData);
@@ -43,7 +49,7 @@ export class RegisterComponent implements OnInit {
 
   initializeForm() {
     this.registerForm = this.formBuilder.group({
-      username: new FormControl("", [
+      username: new FormControl("test", [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(15)
@@ -52,14 +58,14 @@ export class RegisterComponent implements OnInit {
       passwordGroup: this.formBuilder.group(
         {
           password: [
-            "",
+            "123456",
             [
               Validators.required,
               Validators.minLength(6),
               Validators.maxLength(15)
             ]
           ],
-          confirmPassword: ["", [Validators.required]]
+          confirmPassword: ["123456", [Validators.required]]
         },
         {
           validator: confirmPasswordValidator
@@ -99,11 +105,16 @@ export class RegisterComponent implements OnInit {
 
   handleSubmit() {
     const values = this.registerForm.value;
+    const { password } = values.passwordGroup;
 
     const auth: Auth = {
       username: values.username,
       email: values.email,
-      password: values.password
+      password
     };
+
+    this.authService
+      .registerByEmail(auth)
+      .subscribe((res: HttpRes) => {}, err => {});
   }
 }
