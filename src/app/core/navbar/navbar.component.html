@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-md navbar-light bg-dark fixed-top">
+  <!-- brand -->
+  <a class="navbar-brand cursorPointer">
+    <img class="logo" src="/assets/jLogo.png" />
+    <span class="brand-text">Around The World</span>
+  </a>
+
+  <!-- responsive btn -->
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#mobile"
+    aria-controls="navbarCollapse"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="mobile">
+    <!-- left links -->
+    <ul class="navbar-nav mr-auto"></ul>
+
+    <!-- right links -->
+    <ul class="navbar-nav ml-auto" *ngIf="(isAuth$ | async); else isNotAuth">
+      <!-- logged in links -->
+    </ul>
+
+    <!-- logged out links -->
+    <ng-template #isNotAuth>
+      <ul class="navbar-nav ml-auto">
+        <app-link linkName="Register" icon="fas fa-sign-in-alt"></app-link>
+        <app-link linkName="Login" icon="fas fa-edit"></app-link>
+      </ul>
+    </ng-template>
+  </div>
+</nav>
+
+<div class="spacer70"></div>

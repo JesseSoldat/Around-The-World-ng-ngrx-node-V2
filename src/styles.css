@@ -1,1 +1,76 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  background: "#F7EBCB";
+  background: url(./assets/img/pattern.png) repeat;
+}
+
+.bulletinBg {
+  background: url(./assets/img/sand.jpg) repeat;
+  min-height: 500px;
+  padding: 30px 10px;
+}
+
+.cursorPointer {
+  cursor: pointer;
+}
+
+.cursorNotAllowed {
+  cursor: not-allowed;
+}
+
+/* width */
+.widthSpacer10 {
+  width: 10px;
+  display: inline-block;
+}
+
+/* height */
+.spacer200 {
+  height: 200px;
+  width: 100%;
+}
+
+.spacer100 {
+  height: 100px;
+  width: 100%;
+}
+
+.spacer80 {
+  height: 80px;
+  width: 100%;
+}
+.spacer70 {
+  height: 70px;
+  width: 100%;
+}
+.spacer60 {
+  height: 60px;
+  width: 100%;
+}
+.spacer50 {
+  height: 50px;
+  width: 100%;
+}
+
+.spacer40 {
+  height: 40px;
+  width: 100%;
+}
+
+.spacer30 {
+  height: 30px;
+  width: 100%;
+}
+
+.spacer20 {
+  height: 20px;
+  width: 100%;
+}
+
+.spacer10 {
+  height: 10px;
+  width: 100%;
+}

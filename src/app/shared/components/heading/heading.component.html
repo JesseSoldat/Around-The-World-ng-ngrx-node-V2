@@ -1,0 +1,14 @@
+<div class="spacer70"></div>
+
+<div class="row">
+  <div class="col-12 text-center">
+    <!-- top row buttons -->
+
+    <!-- heading / spacer -->
+    <h1 *ngIf="heading; else noHeading" class="heading pb-2">{{ heading }}</h1>
+
+    <ng-template #noHeading> <div class="spacer70"></div> </ng-template>
+
+    <!-- bottom row buttons -->
+  </div>
+</div>

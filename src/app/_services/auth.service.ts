@@ -27,7 +27,6 @@ export class AuthService {
   ) {}
 
   // helpers
-
   handleError({ msg }) {
     console.log("handleError", msg);
 
@@ -60,6 +59,21 @@ export class AuthService {
       catchError(err => {
         return this.handleError(err.error);
       })
+    );
+  }
+
+  loginByEmail(auth: Auth): Observable<HttpRes> {
+    return this.httpService.httpPostRequest("login", auth).pipe(
+      tap((res: HttpRes) => {
+        const { msg, payload } = res;
+
+        const user: User = this.userFromToken(payload.token);
+
+        localStorage.setItem("token", payload.token);
+
+        this.handleSuccess(msg);
+      }),
+      catchError(err => this.handleError(err.error))
     );
   }
 }
