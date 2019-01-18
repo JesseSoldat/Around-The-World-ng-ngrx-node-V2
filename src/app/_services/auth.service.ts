@@ -2,7 +2,9 @@ import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { tap, catchError } from "rxjs/operators";
 import { ToastrService } from "ngx-toastr";
-
+import { Store } from "@ngrx/store";
+import { AppState } from "../_reducers";
+import { Register, Login } from "../auth/auth.actions";
 // models
 import { Auth } from "../_models/auth.model";
 import { User } from "../_models/user.model";
@@ -22,6 +24,7 @@ export class AuthService {
   };
 
   constructor(
+    private store: Store<AppState>,
     private httpService: HttpService,
     private toastr: ToastrService
   ) {}
@@ -49,12 +52,13 @@ export class AuthService {
     return this.httpService.httpPostRequest("register", auth).pipe(
       tap((res: HttpRes) => {
         const { msg, payload } = res;
+        const { token } = payload;
 
-        const user: User = this.userFromToken(payload.token);
-
-        localStorage.setItem("token", payload.token);
+        const user: User = this.userFromToken(token);
 
         this.handleSuccess(msg);
+
+        this.store.dispatch(new Register({ user, token }));
       }),
       catchError(err => {
         return this.handleError(err.error);
@@ -66,12 +70,13 @@ export class AuthService {
     return this.httpService.httpPostRequest("login", auth).pipe(
       tap((res: HttpRes) => {
         const { msg, payload } = res;
+        const { token } = payload;
 
-        const user: User = this.userFromToken(payload.token);
-
-        localStorage.setItem("token", payload.token);
+        const user: User = this.userFromToken(token);
 
         this.handleSuccess(msg);
+
+        this.store.dispatch(new Login({ user, token }));
       }),
       catchError(err => this.handleError(err.error))
     );
