@@ -1,0 +1,23 @@
+.locationWrapper {
+  position: relative;
+}
+
+.btnGroup {
+  position: fixed;
+  top: 80px;
+  right: 40px;
+  z-index: 1000;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+agm-map {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  right: 0;
+  height: 1200px;
+  width: 100%;
+}

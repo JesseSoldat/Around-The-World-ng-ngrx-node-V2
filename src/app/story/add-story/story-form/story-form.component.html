@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-sm-12 col-md-11 mx-auto">
+    <div class="card">
+      <div class="card-block">
+        <h3 class="card-title">Story Details</h3>
+        <form
+          [formGroup]="storyForm"
+          (ngSubmit)="submitForm()"
+          class="storyForm"
+          novalidate
+        >
+          <!-- title -->
+          <app-form-group
+            [data$]="formGroupData$"
+            formControlName="title"
+            ngDefaultControl
+            [errMsg]="controlNameErrs.title"
+            (appBlurEvent)="blur($event)"
+          ></app-form-group>
+
+          <div class="spacer10"></div>
+
+          <!-- description -->
+          <app-form-group
+            [data$]="formGroupData$"
+            formControlName="description"
+            ngDefaultControl
+          >
+          </app-form-group>
+
+          <div class="spacer20"></div>
+
+          <button
+            type="button"
+            (click)="cancel()"
+            class="btn btn-danger btn-block btn-sm"
+          >
+            <i class="fas fa-times mr-1"></i> Cancel
+          </button>
+
+          <div class="spacer10"></div>
+
+          <button type="submit" class="btn btn-dark btn-block btn-sm">
+            <i class="fas fa-check mr-1"></i> Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

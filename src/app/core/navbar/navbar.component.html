@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light bg-dark fixed-top">
   <!-- brand -->
-  <a class="navbar-brand cursorPointer">
+  <a class="navbar-brand cursorPointer" (click)="navigateTo()">
     <img class="logo" src="/assets/jLogo.png" />
     <span class="brand-text">Around The World</span>
   </a>
@@ -25,6 +25,7 @@
     <!-- right links -->
     <ul class="navbar-nav ml-auto" *ngIf="(isAuth$ | async); else isNotAuth">
       <!-- logged in links -->
+      <app-link linkName="Map" icon="fas fa-map"></app-link>
     </ul>
 
     <!-- logged out links -->

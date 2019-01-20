@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="spacer80"></div>
+
+  <!-- map -->
+  <div class="mapContainer">
+    <div class="row">
+      <div class="col-sm-12 col-md-11 mx-auto">
+        <div class="card">
+          <div class="card-block">
+            <agm-map
+              [latitude]="location.lat"
+              [longitude]="location.lng"
+              [zoom]="8"
+            >
+              <agm-marker
+                [latitude]="marker.lat"
+                [longitude]="marker.lng"
+              ></agm-marker>
+            </agm-map>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- important to stop shaking screen -->
+  <div class="spacer10"></div>
+
+  <!-- form -->
+  <app-story-form
+    (handleSubmit)="handleSubmit($event)"
+    (handleCancel)="handleCancel()"
+  ></app-story-form>
+
+  <div class="spacer100"></div>
+</div>
