@@ -10,9 +10,11 @@
             <agm-map
               [latitude]="location.lat"
               [longitude]="location.lng"
-              [zoom]="8"
+              [zoom]="zoom"
+              (mapClick)="setMarker($event)"
             >
               <agm-marker
+                *ngIf="marker"
                 [latitude]="marker.lat"
                 [longitude]="marker.lng"
               ></agm-marker>

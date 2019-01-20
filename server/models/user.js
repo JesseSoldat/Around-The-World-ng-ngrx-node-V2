@@ -121,6 +121,26 @@ UserSchema.statics.findByCredentials = async function(email, password) {
   }
 };
 
+UserSchema.statics.findByToken = async function(token) {
+  const User = this;
+  try {
+    const decodedToken = await new Promise(resolve => {
+      jwt.verify(token, process.env.TOKEN_SECRET, (err, decodedToken) => {
+        err ? resolve(null) : resolve(decodedToken);
+      });
+    });
+
+    if (!decodedToken) return null;
+
+    const user = await User.findOne({ _id: decodedToken._id });
+
+    return user ? user : null;
+  } catch (err) {
+    console.log("Err: findByToken", err);
+    return null;
+  }
+};
+
 const User = mongoose.model("user", UserSchema);
 
 module.exports = User;

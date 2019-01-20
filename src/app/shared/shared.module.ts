@@ -1,14 +1,15 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { RouterModule, Routes } from "@angular/router";
+import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule } from "@angular/forms";
 
+// directives
+import { BlurEventDirective } from "./directives/blur-event.directive";
 // components
 import { FormGroupComponent } from "./components/form-group/form-group.component";
 import { LinkComponent } from "./components/link/link.component";
 import { HeadingComponent } from "./components/heading/heading.component";
-// directives
-import { BlurEventDirective } from "./directives/blur-event.directive";
+import { TileCardComponent } from "./components/tile-card/tile-card.component";
 
 @NgModule({
   imports: [CommonModule, RouterModule, ReactiveFormsModule],
@@ -16,7 +17,8 @@ import { BlurEventDirective } from "./directives/blur-event.directive";
     BlurEventDirective,
     FormGroupComponent,
     LinkComponent,
-    HeadingComponent
+    HeadingComponent,
+    TileCardComponent
   ],
   exports: [
     CommonModule,
@@ -25,6 +27,7 @@ import { BlurEventDirective } from "./directives/blur-event.directive";
     FormGroupComponent,
     LinkComponent,
     HeadingComponent,
+    TileCardComponent,
     BlurEventDirective
   ]
 })

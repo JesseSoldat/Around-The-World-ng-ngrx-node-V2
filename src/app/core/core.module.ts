@@ -21,6 +21,7 @@ import { AppRoutingModule } from "../app-routing.module";
 // services
 import { HttpService } from "../_services/http.service";
 import { AuthService } from "../_services/auth.service";
+import { StoryService } from "../_services/story.service";
 // interceptors
 import { AuthInterceptor } from "../_services/interceptors/auth.interceptor";
 // guards
@@ -51,6 +52,7 @@ import { environment } from "src/environments/environment";
   providers: [
     HttpService,
     AuthService,
+    StoryService,
     AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: RouterStateSerializer, useClass: CustomSerializer }

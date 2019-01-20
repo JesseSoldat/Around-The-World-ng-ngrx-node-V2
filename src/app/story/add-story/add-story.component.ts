@@ -6,6 +6,8 @@ import { AppState } from "../../_reducers";
 // models
 import { Location } from "../../_models/location.model";
 import { Story } from "../../_models/story.model";
+// services
+import { StoryService } from "src/app/_services/story.service";
 
 @Component({
   selector: "app-add-story",
@@ -14,12 +16,14 @@ import { Story } from "../../_models/story.model";
 })
 export class AddStoryComponent implements OnInit {
   location: Location;
+  zoom = 8;
   marker: Location;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private storyService: StoryService
   ) {}
 
   ngOnInit() {
@@ -30,6 +34,10 @@ export class AddStoryComponent implements OnInit {
       };
       this.marker = this.location;
     });
+  }
+
+  setMarker(event) {
+    this.marker = event.coords;
   }
 
   handleCancel() {
@@ -49,5 +57,7 @@ export class AddStoryComponent implements OnInit {
     };
 
     console.log(story);
+
+    this.storyService.createStory(story).subscribe(res => {}, err => {});
   }
 }

@@ -1,3 +1,16 @@
-<p>
-  dashboard works!
-</p>
+<div class="row mx-1">
+  <div class="col-12">
+    <app-heading heading="Dashboard"></app-heading>
+
+    <div class="board">
+      <div
+        class="d-flex flex-wrap justify-content-around my-4"
+        *ngIf="(cardData$ | async) as data"
+      >
+        <app-tile-card [data]="data['mapIt']"></app-tile-card>
+        <app-tile-card [data]="data['storyList']"></app-tile-card>
+        <app-tile-card [data]="data['friends']"></app-tile-card>
+      </div>
+    </div>
+  </div>
+</div>

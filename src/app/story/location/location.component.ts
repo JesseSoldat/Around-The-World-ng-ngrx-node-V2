@@ -13,6 +13,7 @@ export class LocationComponent {
     lng: -84.296312,
     lat: 33.774828
   };
+  zoom = 4;
   marker: Location;
   locationIsSet = false;
 
