@@ -12,7 +12,7 @@ export const cardData: DashCards = {
     title: "View your Stories",
     subtitle:
       "Revisit your stories and update or remove to them to your liking.",
-    link: "/map/storyList",
+    link: "/map/stories",
     linkText: "Stories"
   },
   friends: {

@@ -1,0 +1,47 @@
+.imageUploadWrapper {
+  position: relative;
+}
+
+.dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 300px;
+  border: 2px dashed #f16624;
+  border-radius: 5px;
+  background: white;
+  margin: 10px 0;
+}
+
+.dropzone.hovering {
+  border: 2px solid #f16624;
+  background: #dadada !important;
+}
+
+.fileInputWrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.file-label {
+  font-size: 1.2em;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+progress::-webkit-progress-value {
+  transition: width 0.1s ease;
+}
+
+.is-info {
+  width: 100%;
+}
+
+.imgPreview {
+  max-width: 100%;
+}

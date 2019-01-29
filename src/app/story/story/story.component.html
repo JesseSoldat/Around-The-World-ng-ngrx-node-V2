@@ -1,0 +1,76 @@
+<app-overlay [overlay$]="overlay$"></app-overlay>
+<!-- content -->
+<div class="row mx-3" *ngIf="(story$ | async) as story; else showSpinner">
+  <div class="col-xs-12 col-sm-10 mx-auto">
+    <!-- heading -->
+    <app-heading
+      [heading]="story.title"
+      [btnTypes]="btnTypes"
+      (btnClick)="goBack()"
+    ></app-heading>
+
+    <div class="row mt-2">
+      <div class="col-xs-12 col-sm-10 mx-auto">
+        <!-- accordion -->
+        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+          <!-- description -->
+          <ngb-panel title="Story">
+            <ng-template ngbPanelContent>
+              <p>{{ story.description }}</p>
+            </ng-template>
+          </ngb-panel>
+          <!-- map -->
+          <ngb-panel title="Map">
+            <ng-template ngbPanelContent>
+              <agm-map
+                [longitude]="story.geometry.coordinates[0]"
+                [latitude]="story.geometry.coordinates[1]"
+                [zoom]="8"
+              >
+                <agm-marker
+                  [longitude]="story.geometry.coordinates[0]"
+                  [latitude]="story.geometry.coordinates[1]"
+                >
+                </agm-marker>
+              </agm-map>
+            </ng-template>
+          </ngb-panel>
+          <!-- images -->
+          <ngb-panel title="Photos">
+            <ng-template ngbPanelContent>
+              <div class="row">
+                <div class="col-12">
+                  <button
+                    (click)="addImage()"
+                    class="btn btn-dark btn-sm float-right"
+                  >
+                    Add Image
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="story.images.length; else showPlaceholderImage">
+                <img
+                  *ngFor="let img of story.images"
+                  [src]="img.downloadURL"
+                  alt="stories"
+                  class="smallImg"
+                />
+              </div>
+              <ng-template #showPlaceholderImage>
+                <p>There are no images added to this story yet!</p>
+              </ng-template>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- spinner -->
+<ng-template #showSpinner>
+  <div class="col-xs-12 col-sm-10 mx-auto">
+    <app-heading [btnTypes]="btnTypes" (btnClick)="goBack()"></app-heading>
+    <app-spinner></app-spinner>
+  </div>
+</ng-template>

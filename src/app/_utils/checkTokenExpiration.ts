@@ -9,7 +9,9 @@ const checkTokenExpiration = token => {
 
   if (expires < now) isExpired = true;
 
-  console.log(expires, isExpired);
+  console.log("now", now);
+
+  console.log("expires", expires, isExpired);
 
   return isExpired;
 };

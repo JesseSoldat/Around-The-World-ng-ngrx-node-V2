@@ -13,6 +13,11 @@ const routes: Routes = [
     path: "map",
     loadChildren: "./story/story.module#StoryModule",
     canActivate: [AuthGuard]
+  },
+  {
+    path: "imageUpload",
+    loadChildren: "./image-upload/image-upload.module#ImageUploadModule",
+    canActivate: [AuthGuard]
   }
 ];
 

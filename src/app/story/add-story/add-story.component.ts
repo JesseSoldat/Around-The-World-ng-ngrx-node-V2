@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../_reducers";
 // models
@@ -8,6 +8,8 @@ import { Location } from "../../_models/location.model";
 import { Story } from "../../_models/story.model";
 // services
 import { StoryService } from "src/app/_services/story.service";
+// selectors
+import { selectStoryOverlay } from "../story.selector";
 
 @Component({
   selector: "app-add-story",
@@ -15,6 +17,7 @@ import { StoryService } from "src/app/_services/story.service";
   styleUrls: ["./add-story.component.css"]
 })
 export class AddStoryComponent implements OnInit {
+  overlay$: Observable<boolean>;
   location: Location;
   zoom = 8;
   marker: Location;
@@ -34,6 +37,12 @@ export class AddStoryComponent implements OnInit {
       };
       this.marker = this.location;
     });
+
+    this.toggleOverlay();
+  }
+
+  toggleOverlay() {
+    this.overlay$ = this.store.pipe(select(selectStoryOverlay));
   }
 
   setMarker(event) {
@@ -55,8 +64,6 @@ export class AddStoryComponent implements OnInit {
         coordinates: [lng, lat]
       }
     };
-
-    console.log(story);
 
     this.storyService.createStory(story).subscribe(res => {}, err => {});
   }

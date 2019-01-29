@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-12">
+    <div class="float-left">
+      <!-- back btn -->
+      <button
+        *ngIf="btnTypes?.backBtn"
+        class="btn-secondary"
+        (click)="btnClick('back')"
+      >
+        <i class="fas fa-chevron-left"></i> Go Back
+      </button>
+    </div>
+
+    <div class="float-right">
+      <!-- delete btn -->
+      <button
+        *ngIf="btnTypes?.deleteBtn"
+        class="btn-danger mr-1"
+        (click)="btnClick('delete')"
+      >
+        <i class="fas fa-trash-alt"></i> Delete
+      </button>
+      <!-- edit btn -->
+      <button
+        *ngIf="btnTypes?.editBtn"
+        class="btn-secondary mr-1"
+        (click)="btnClick('edit')"
+      >
+        <i class="fas fa-edit"></i> Edit
+      </button>
+      <!-- detail btn -->
+      <button
+        *ngIf="btnTypes?.detailsBtn"
+        class="btn-secondary mr-1"
+        (click)="btnClick('details')"
+      >
+        <i class="fas fa-info-circle"></i> Details
+      </button>
+    </div>
+  </div>
+</div>

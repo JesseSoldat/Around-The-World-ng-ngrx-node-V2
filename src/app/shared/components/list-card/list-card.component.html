@@ -1,0 +1,86 @@
+<div class="card-body">
+  <div class="row">
+    <!-- left -->
+    <div class="cardText col-sm-12 col-lg-7">
+      <h3 class="card-title">{{ data.title }}</h3>
+      <p class="card-text">{{ data.description }}</p>
+
+      <!-- match form -->
+      <form
+        class="form"
+        [formGroup]="matchesForm"
+        (ngSubmit)="handleSubmit()"
+        novalidate
+      >
+        <!-- select -->
+        <div class="form-group mr-3">
+          <label>Select Distance:</label>
+          <select name="distances" class="form-control">
+            <option *ngFor="let distance of distances" [value]="distance">{{
+              distance
+            }}</option>
+          </select>
+        </div>
+
+        <!-- radio -->
+        <div class="radioGroup form-group">
+          <input
+            type="radio"
+            class="mr-2"
+            formControlName="distanceType"
+            name="distanceType"
+            checked
+            value="miles"
+          />
+          <span class="mr-3">Miles</span>
+          <input
+            type="radio"
+            class="mr-2"
+            formControlName="distanceType"
+            name="distanceType"
+            value="km"
+          />
+          <span>Km</span>
+        </div>
+
+        <!-- buttons -->
+        <!-- small -->
+        <div class="btn-group smallBtn">
+          <button class="btn btn-secondary btn-sm mr-2">
+            <i class="fas fa-link mr-1"> Match Others </i>
+          </button>
+          <button
+            [routerLink]="['/map/story', data.user._id, data._id]"
+            class="btn btn-dark btn-sm"
+            type="button"
+          >
+            <i class="fas fa-atlas mr-1"></i> Story Details
+          </button>
+        </div>
+
+        <!-- large -->
+        <div class="btn-group lgBtn">
+          <button class="btn btn-secondary btn-block btn-sm">
+            <i class="fas fa-link mr-1"></i> Match Others
+          </button>
+          <button
+            [routerLink]="['/map/story', data.user._id, data._id]"
+            class="btn btn-dark btn-block btn-sm"
+            type="button"
+          >
+            <i class="fas fa-atlas mr-1"></i> Story Details
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- right -->
+    <div class="cardImg col-sm-12 col-lg-5">
+      <img
+        src="https://via.placeholder.com/400x400"
+        alt="story location"
+        class="img-fluid mx-auto d-block"
+      />
+    </div>
+  </div>
+</div>

@@ -12,6 +12,11 @@ const GeoSchema = new Schema({
   }
 });
 
+const StoryImageSchema = new Schema({
+  path: String,
+  downloadURL: String
+});
+
 const StorySchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "user" },
   title: { type: String, trim: true, required: true, minlength: 1 },
@@ -20,7 +25,8 @@ const StorySchema = new Schema({
     trim: true,
     default: "The user has not written a story for this place yet."
   },
-  geometry: GeoSchema
+  geometry: GeoSchema,
+  images: { type: [StoryImageSchema] }
 });
 
 const Story = mongoose.model("story", StorySchema);

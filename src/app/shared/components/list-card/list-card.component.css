@@ -1,0 +1,35 @@
+/* left */
+.form-group > label {
+  margin-right: 10px;
+}
+
+/* button */
+.smallBtn {
+  margin: 10px 0 5px;
+  display: block;
+}
+
+.lgBtn {
+  display: none;
+}
+
+/* right */
+
+/* @ large break point */
+@media (max-width: 1199.98px) {
+  .smallBtn {
+    display: none;
+  }
+
+  .lgBtn {
+    margin: 10px, 0 10px;
+    display: block;
+  }
+}
+
+/* @ medium break point */
+@media (max-width: 991.98px) {
+  .cardImg {
+    margin-top: 10px;
+  }
+}

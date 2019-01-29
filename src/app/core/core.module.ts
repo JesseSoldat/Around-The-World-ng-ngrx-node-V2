@@ -14,6 +14,9 @@ import {
 import { EffectsModule } from "@ngrx/effects";
 import { CustomSerializer } from "../_reducers/customSerialize";
 import { reducers, metaReducers } from "../_reducers";
+// firebase
+import { AngularFireModule } from "angularfire2";
+import { AngularFireStorageModule } from "angularfire2/storage";
 // modules
 import { SharedModule } from "../shared/shared.module";
 // routing
@@ -37,6 +40,9 @@ import { environment } from "src/environments/environment";
     ToastrModule.forRoot(),
     AppRoutingModule,
     SharedModule,
+    // firebase
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule,
     // ngrx
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],

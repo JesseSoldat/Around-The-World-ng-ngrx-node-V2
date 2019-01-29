@@ -7,12 +7,19 @@ import { AppState } from "../_reducers";
 // models
 import { HttpRes } from "../_models/http-res.model";
 import { Story } from "../_models/story.model";
+import { StoryImage } from "../_models/story-image";
+
 // services
 import { HttpService } from "./http.service";
 // selectors
 import { selectUserId } from "../auth/auth.selectors";
 // actions
-import { AddStoryStarted, AddStoryFinished } from "../story/story.actions";
+import {
+  AddStoryStarted,
+  AddStoryFinished,
+  AddStoryImageStarted,
+  AddStoryImageFinished
+} from "../story/story.actions";
 
 @Injectable()
 export class StoryService {
@@ -53,10 +60,16 @@ export class StoryService {
   }
 
   // api calls
-  createStory(story: Story): Observable<HttpRes> {
+  getStories(): Observable<HttpRes> {
     if (!this.userId) return of(null);
 
-    console.log("service 2", story);
+    return this.httpService
+      .httpGetRequest(`story/${this.userId}`)
+      .pipe(catchError(err => this.handleError(err)));
+  }
+
+  createStory(story: Story): Observable<HttpRes> {
+    if (!this.userId) return of(null);
 
     this.store.dispatch(new AddStoryStarted());
     return this.httpService
@@ -69,6 +82,29 @@ export class StoryService {
           this.handleSuccess(msg);
 
           this.store.dispatch(new AddStoryFinished({ update: story }));
+        }),
+        catchError(err => this.handleError(err))
+      );
+  }
+
+  addImageToStory(storyImg: StoryImage, storyId: string): Observable<HttpRes> {
+    if (!this.userId) return of(null);
+
+    this.store.dispatch(new AddStoryImageStarted());
+    return this.httpService
+      .httpPatchRequest(`story/addImage/${this.userId}/${storyId}`, {
+        storyImg
+      })
+      .pipe(
+        tap((res: HttpRes) => {
+          console.log("res", res);
+
+          const { msg, payload } = res;
+          const { story } = payload;
+
+          this.handleSuccess(msg);
+
+          this.store.dispatch(new AddStoryImageFinished({ update: story }));
         }),
         catchError(err => this.handleError(err))
       );

@@ -4,9 +4,15 @@ import { Story } from "../_models/story.model";
 import { Image } from "../_models/image.model";
 
 export enum StoryActionTypes {
+  StoryError = "StoryError",
   // overlay
   AddStoryStarted = "AddStoryStarted",
-  AddStoryFinished = "AddStoryFinished"
+  AddStoryFinished = "AddStoryFinished",
+  AddStoryImageStarted = "AddStoryImageStarted",
+  AddStoryImageFinished = "AddStoryImageFinished",
+  // loading
+  MyStoriesRequested = "MyStoriesRequested",
+  MyStoriesLoaded = "MyStoriesLoaded"
 }
 
 // overlays
@@ -22,4 +28,42 @@ export class AddStoryFinished implements Action {
   constructor(public payload: { update: Story }) {}
 }
 
-export type StoryActions = AddStoryStarted | AddStoryFinished;
+// errors
+export class StoryError implements Action {
+  readonly type = StoryActionTypes.StoryError;
+
+  constructor(public payload: { error: string }) {}
+}
+
+// loading
+
+// fetch stories
+export class MyStoriesRequested implements Action {
+  readonly type = StoryActionTypes.MyStoriesRequested;
+}
+
+export class MyStoriesLoaded implements Action {
+  readonly type = StoryActionTypes.MyStoriesLoaded;
+
+  constructor(public payload: { stories: Story[] }) {}
+}
+
+// overlay
+
+export class AddStoryImageStarted implements Action {
+  readonly type = StoryActionTypes.AddStoryImageStarted;
+}
+
+export class AddStoryImageFinished implements Action {
+  readonly type = StoryActionTypes.AddStoryImageFinished;
+
+  constructor(public payload: { update: Story }) {}
+}
+
+export type StoryActions =
+  | AddStoryStarted
+  | AddStoryFinished
+  | MyStoriesRequested
+  | MyStoriesLoaded
+  | AddStoryImageStarted
+  | AddStoryImageFinished;

@@ -1,0 +1,58 @@
+<app-overlay [overlay$]="overlay$"></app-overlay>
+
+<div class="imageUploadWrapper mx-2">
+  <!-- heading -->
+  <app-heading
+    heading="Upload an Image"
+    [btnTypes]="btnTypes"
+    (btnClick)="goToStory()"
+  ></app-heading>
+
+  <!-- dropzone -->
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+      <div
+        class="dropzone mt-3"
+        dropZone
+        (hovered)="toggleHover($event)"
+        (dropped)="startUpload($event)"
+        [class.hovering]="isHovering"
+      >
+        <div class="fileInputWrapper">
+          <label class="file-label cursorPointer">
+            <input
+              type="file"
+              hidden
+              (change)="startUpload($event.target.files)"
+            />
+
+            <span class="file-icon mb-1">
+              <i class="fa fa-upload fa-2x"></i>
+            </span>
+            <span> drop or click to add a file… </span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- progress -->
+  <div class="row">
+    <div
+      *ngIf="(percentage | async) as pct"
+      class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto"
+    >
+      <div>
+        <progress class="progress is-info" [value]="pct" max="100"></progress>
+        {{ pct | number }}%
+      </div>
+
+      <div>
+        <div *ngIf="(downloadURL$ | async) as downloadURL" class="mt-4">
+          <h3>Results</h3>
+          <img [src]="downloadURL" class="imgPreview mb-2" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

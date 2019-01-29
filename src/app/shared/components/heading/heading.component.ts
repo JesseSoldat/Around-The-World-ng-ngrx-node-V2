@@ -1,24 +1,19 @@
-import { Component, OnInit, Output, Input, EventEmitter } from "@angular/core";
+import { Component, Output, Input, EventEmitter } from "@angular/core";
 
 @Component({
   selector: "app-heading",
   templateUrl: "./heading.component.html",
   styleUrls: ["./heading.component.css"]
 })
-export class HeadingComponent implements OnInit {
+export class HeadingComponent {
   @Input() heading: string;
-  @Input() backBtn: string;
-  @Input() editBtn: string;
-  @Input() deleteBtn: string;
-  @Input() viewBtn: string;
+  @Input() btnTypes;
 
   @Output() btnClick: EventEmitter<string> = new EventEmitter();
 
-  constructor() {}
-
-  ngOnInit() {}
-
   onBtnClick($event) {
+    console.log("click type:", $event);
+
     this.btnClick.emit($event);
   }
 }
