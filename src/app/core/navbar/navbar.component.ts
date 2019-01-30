@@ -40,4 +40,6 @@ export class NavbarComponent implements OnInit {
   navigateTo(): void {
     this.router.navigateByUrl(this.brandLink);
   }
+
+  logout() {}
 }

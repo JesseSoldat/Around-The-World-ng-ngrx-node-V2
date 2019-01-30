@@ -66,7 +66,9 @@ export class ImageUploadComponent implements OnInit {
   }
 
   // events
-  goToStory() {}
+  goToStory() {
+    this.router.navigateByUrl(`/map/story/${this.userId}/${this.storyId}`);
+  }
 
   toggleHover(event: boolean) {
     this.isHovering = event;

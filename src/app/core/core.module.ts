@@ -14,6 +14,7 @@ import {
 import { EffectsModule } from "@ngrx/effects";
 import { CustomSerializer } from "../_reducers/customSerialize";
 import { reducers, metaReducers } from "../_reducers";
+import { modalReducer } from "./modals/modal.reducer";
 // firebase
 import { AngularFireModule } from "angularfire2";
 import { AngularFireStorageModule } from "angularfire2/storage";
@@ -29,9 +30,12 @@ import { StoryService } from "../_services/story.service";
 import { AuthInterceptor } from "../_services/interceptors/auth.interceptor";
 // guards
 import { AuthGuard } from "../_services/guards/auth.guard";
+// config
+import { environment } from "src/environments/environment";
 // components
 import { NavbarComponent } from "./navbar/navbar.component";
-import { environment } from "src/environments/environment";
+import { ImageDetailModalComponent } from "./modals/image-detail-modal/image-detail-modal.component";
+import { ModalManagerComponent } from "./modals/modal-manager/modal-manager.component";
 
 @NgModule({
   imports: [
@@ -45,6 +49,7 @@ import { environment } from "src/environments/environment";
     AngularFireStorageModule,
     // ngrx
     StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forFeature("modal", modalReducer),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([])
   ],
@@ -53,7 +58,9 @@ import { environment } from "src/environments/environment";
     HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule,
-    NavbarComponent
+    NavbarComponent,
+    ModalManagerComponent,
+    ImageDetailModalComponent
   ],
   providers: [
     HttpService,
@@ -63,6 +70,10 @@ import { environment } from "src/environments/environment";
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
-  declarations: [NavbarComponent]
+  declarations: [
+    NavbarComponent,
+    ImageDetailModalComponent,
+    ModalManagerComponent
+  ]
 })
 export class CoreModule {}

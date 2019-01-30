@@ -11,6 +11,8 @@ import { selectStoryOverlay, selectStory } from "../story.selector";
 import { MyStoriesRequested } from "../story.actions";
 // models
 import { Story } from "src/app/_models/story.model";
+import { StoryImage } from "src/app/_models/story-image";
+import { OpenModal } from "src/app/core/modals/modal.actions";
 
 @Component({
   selector: "app-story",
@@ -69,6 +71,15 @@ export class StoryComponent implements OnInit {
   // events
   goBack() {
     this.router.navigateByUrl("/map/stories");
+  }
+
+  viewImage(img: StoryImage) {
+    this.store.dispatch(
+      new OpenModal({
+        modalType: "imageDetails",
+        data: { ...img, storyId: this.storyId }
+      })
+    );
   }
 
   addImage() {

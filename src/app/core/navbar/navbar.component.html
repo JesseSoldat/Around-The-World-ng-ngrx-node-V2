@@ -2,7 +2,15 @@
   <!-- brand -->
   <a class="navbar-brand cursorPointer" (click)="navigateTo()">
     <img class="logo" src="/assets/jLogo.png" />
-    <span class="brand-text">Around The World</span>
+    <!-- large screen -->
+    <span
+      class="brand-text d-none d-sm-inline d-md-inline d-lg-inline d-xl-inline"
+      >Around The World</span
+    >
+    <!-- small screen -->
+    <span class="brand-text d-inline d-sm-none d-md-none d-lg-none d-xl-none"
+      >ATW</span
+    >
   </a>
 
   <!-- responsive btn -->
@@ -26,6 +34,7 @@
     <ul class="navbar-nav ml-auto" *ngIf="(isAuth$ | async); else isNotAuth">
       <!-- logged in links -->
       <app-link linkName="Map" icon="fas fa-map"></app-link>
+      <app-link linkName="Stories" icon="fas fa-atlas"></app-link>
     </ul>
 
     <!-- logged out links -->

@@ -1,0 +1,24 @@
+<ng-template #modalRef let-modal>
+  <!-- header -->
+  <div class="modal-header p-3">
+    <h5 class="modal-title">View Image Details</h5>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <!-- body -->
+  <div class="modal-body p-3">
+    <img [src]="data.downloadURL" alt="story" class="img-fluid" />
+  </div>
+  <!-- footer -->
+  <div class="modal-footer p-3">
+    <button class="btn btn-dark btn-sm" (click)="closeModal()">
+      <i class="fas fa-backspace mr-1"></i> Close
+    </button>
+  </div>
+</ng-template>
