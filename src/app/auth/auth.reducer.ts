@@ -26,6 +26,12 @@ export function authReducer(state = initialAuthState, action: AuthActions) {
         user: payload.user
       };
 
+    case AuthActionTypes.LogoutAction:
+      return {
+        isAuth: false,
+        user: null
+      };
+
     default:
       return { ...state };
   }
