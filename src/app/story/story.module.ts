@@ -13,6 +13,8 @@ import { AddStoryComponent } from "./add-story/add-story.component";
 import { StoryFormComponent } from "./add-story/story-form/story-form.component";
 import { StoriesComponent } from "./stories/stories.component";
 import { StoryComponent } from './story/story.component';
+import { MatchedStoriesComponent } from './matched-stories/matched-stories.component';
+import { MatchedStoryComponent } from './matched-story/matched-story.component';
 
 @NgModule({
   imports: [
@@ -29,7 +31,9 @@ import { StoryComponent } from './story/story.component';
     AddStoryComponent,
     StoryFormComponent,
     StoriesComponent,
-    StoryComponent
+    StoryComponent,
+    MatchedStoriesComponent,
+    MatchedStoryComponent
   ]
 })
 export class StoryModule {}

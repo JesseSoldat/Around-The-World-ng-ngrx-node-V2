@@ -1,0 +1,50 @@
+<ng-template #modalRef let-modal>
+  <div class="modal-header">
+    <h4 *ngIf="data.match.length === 0" class="modal-title">
+      No Matches Found
+    </h4>
+
+    <h4 *ngIf="data.match.length" class="modal-title">
+      You Matched {{ data.match.length }} Users
+    </h4>
+
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div *ngIf="data?.match.length; else noMatches" class="modal-body">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" *ngFor="let match of data.match">
+        <span>
+          {{ match.userInfo[0].username | titlecase }} has {{ match.length }}
+          {{ match.length === 1 ? "story" : "stories" }} found near your
+          location.
+        </span>
+        <br />
+        <a href (click)="closeModalAndRoute(match, $event)"
+          >Check out all their stories!</a
+        >
+      </li>
+    </ul>
+  </div>
+
+  <ng-template #noMatches>
+    <div class="modal-body">
+      <p class="px-2 py-2 mb-2">
+        Try increasing the distance from your story to find more people.
+      </p>
+    </div>
+  </ng-template>
+
+  <div class="modal-footer">
+    <button type="button" (click)="closeModal()" class="btn btn-dark btn-sm">
+      <i class="fas fa-backspace mr-1"></i> Close
+    </button>
+  </div>
+</ng-template>

@@ -2,6 +2,7 @@ import { Action } from "@ngrx/store";
 // models
 import { Story } from "../_models/story.model";
 import { Image } from "../_models/image.model";
+import { MatchQuery } from "../_models/match-query.model";
 
 export enum StoryActionTypes {
   StoryError = "StoryError",
@@ -10,9 +11,20 @@ export enum StoryActionTypes {
   AddStoryFinished = "AddStoryFinished",
   AddStoryImageStarted = "AddStoryImageStarted",
   AddStoryImageFinished = "AddStoryImageFinished",
+  MatchOtherUsersStarted = "MatchOtherUsersStarted",
+  MatchOtherUsersFinished = "MatchOtherUsersFinished",
   // loading
   MyStoriesRequested = "MyStoriesRequested",
-  MyStoriesLoaded = "MyStoriesLoaded"
+  MyStoriesLoaded = "MyStoriesLoaded",
+  OtherPersonsStoriesRequested = "OtherPersonsStoriesRequested",
+  OtherPersonsStoriesLoaded = "OtherPersonsStoriesLoaded"
+}
+
+// errors
+export class StoryError implements Action {
+  readonly type = StoryActionTypes.StoryError;
+
+  constructor(public payload: { error: string }) {}
 }
 
 // overlays
@@ -28,11 +40,28 @@ export class AddStoryFinished implements Action {
   constructor(public payload: { update: Story }) {}
 }
 
-// errors
-export class StoryError implements Action {
-  readonly type = StoryActionTypes.StoryError;
+// add an image to a story
 
-  constructor(public payload: { error: string }) {}
+export class AddStoryImageStarted implements Action {
+  readonly type = StoryActionTypes.AddStoryImageStarted;
+}
+
+export class AddStoryImageFinished implements Action {
+  readonly type = StoryActionTypes.AddStoryImageFinished;
+
+  constructor(public payload: { update: Story }) {}
+}
+
+// match other users stories to your story
+
+export class MatchOtherUsersStarted implements Action {
+  readonly type = StoryActionTypes.MatchOtherUsersStarted;
+
+  constructor(public payload: { matchQuery: MatchQuery }) {}
+}
+
+export class MatchOtherUsersFinished implements Action {
+  readonly type = StoryActionTypes.MatchOtherUsersFinished;
 }
 
 // loading
@@ -48,16 +77,18 @@ export class MyStoriesLoaded implements Action {
   constructor(public payload: { stories: Story[] }) {}
 }
 
-// overlay
+// other persons stories loaded
 
-export class AddStoryImageStarted implements Action {
-  readonly type = StoryActionTypes.AddStoryImageStarted;
+export class OtherPersonsStoriesRequested implements Action {
+  readonly type = StoryActionTypes.OtherPersonsStoriesRequested;
+
+  constructor(public payload: { matchedUserId: string }) {}
 }
 
-export class AddStoryImageFinished implements Action {
-  readonly type = StoryActionTypes.AddStoryImageFinished;
+export class OtherPersonsStoriesLoaded implements Action {
+  readonly type = StoryActionTypes.OtherPersonsStoriesLoaded;
 
-  constructor(public payload: { update: Story }) {}
+  constructor(public payload: { stories: Story[] }) {}
 }
 
 export type StoryActions =
@@ -66,4 +97,8 @@ export type StoryActions =
   | MyStoriesRequested
   | MyStoriesLoaded
   | AddStoryImageStarted
-  | AddStoryImageFinished;
+  | AddStoryImageFinished
+  | MatchOtherUsersStarted
+  | MatchOtherUsersFinished
+  | OtherPersonsStoriesRequested
+  | OtherPersonsStoriesLoaded;

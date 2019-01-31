@@ -26,3 +26,8 @@ export const selectStory = (storyId: string) => {
     }
   );
 };
+
+export const selectOtherPersonsStories = createSelector(
+  selectStoryState,
+  storyState => storyState.otherPersonsStories
+);

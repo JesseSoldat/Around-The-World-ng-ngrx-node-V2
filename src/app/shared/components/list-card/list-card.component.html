@@ -15,7 +15,11 @@
         <!-- select -->
         <div class="form-group mr-3">
           <label>Select Distance:</label>
-          <select name="distances" class="form-control">
+          <select
+            name="distances"
+            class="form-control"
+            formControlName="distances"
+          >
             <option *ngFor="let distance of distances" [value]="distance">{{
               distance
             }}</option>

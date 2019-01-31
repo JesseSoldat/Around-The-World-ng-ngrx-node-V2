@@ -13,7 +13,11 @@ import {
   StoryError,
   MyStoriesRequested,
   MyStoriesLoaded,
-  StoryActionTypes
+  StoryActionTypes,
+  MatchOtherUsersFinished,
+  MatchOtherUsersStarted,
+  OtherPersonsStoriesLoaded,
+  OtherPersonsStoriesRequested
 } from "./story.actions";
 
 @Injectable()
@@ -43,5 +47,42 @@ export class StoryEffects {
         catchError(err => of(null))
       )
     )
+  );
+
+  @Effect()
+  matchOtherUsers$: Observable<
+    MatchOtherUsersFinished | StoryError
+  > = this.action$.pipe(
+    ofType<MatchOtherUsersStarted>(StoryActionTypes.MatchOtherUsersStarted),
+    switchMap(({ payload: { matchQuery } }) => {
+      return this.storyService.matchOtherUsers(matchQuery).pipe(
+        map((res: HttpRes) => {
+          if (!res) return this.handleError();
+
+          return new MatchOtherUsersFinished();
+        }),
+        catchError(err => of(null))
+      );
+    })
+  );
+
+  @Effect()
+  getOtherPersonsStories$: Observable<
+    OtherPersonsStoriesLoaded | StoryError
+  > = this.action$.pipe(
+    ofType<OtherPersonsStoriesRequested>(
+      StoryActionTypes.OtherPersonsStoriesRequested
+    ),
+    switchMap(action => {
+      const { matchedUserId } = action.payload;
+      return this.storyService.getOtherPersonsStories(matchedUserId).pipe(
+        map((res: HttpRes) => {
+          if (!res) return this.handleError();
+          const { stories } = res.payload;
+          return new OtherPersonsStoriesLoaded({ stories });
+        }),
+        catchError(err => of(null))
+      );
+    })
   );
 }

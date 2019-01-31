@@ -18,6 +18,7 @@ const distances =
 })
 export class ListCardComponent implements OnInit {
   @Input() data: Story;
+  @Output() onHandleSubmit = new EventEmitter();
   matchesForm: FormGroup;
   distances: string[];
 
@@ -36,5 +37,7 @@ export class ListCardComponent implements OnInit {
     });
   }
 
-  handleSubmit() {}
+  handleSubmit() {
+    this.onHandleSubmit.emit(this.matchesForm.value);
+  }
 }

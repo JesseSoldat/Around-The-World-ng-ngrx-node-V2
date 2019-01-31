@@ -40,10 +40,15 @@ export function storyReducer(state = initialStoryState, action) {
     // -- loading --
     case StoryActionTypes.MyStoriesLoaded:
       return { ...state, stories: [...payload.stories] };
+
+    case StoryActionTypes.OtherPersonsStoriesLoaded:
+      return { ...state, otherPersonsStories: [...payload.stories] };
+
     // -- show overlay --
     // add a new story
     case StoryActionTypes.AddStoryStarted:
     case StoryActionTypes.AddStoryImageStarted:
+    case StoryActionTypes.MatchOtherUsersStarted:
       return { ...state, overlay: true };
 
     // -- hide overlay --
@@ -59,6 +64,12 @@ export function storyReducer(state = initialStoryState, action) {
         ...state,
         overlay: false,
         stories: addImageToStory(state.stories, payload.update)
+      };
+
+    case StoryActionTypes.MatchOtherUsersFinished:
+      return {
+        ...state,
+        overlay: false
       };
 
     default:

@@ -1,29 +1,34 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-// guards
-import { AuthGuard } from "../_services/guards/auth.guard";
 // components
 import { LocationComponent } from "./location/location.component";
 import { AddStoryComponent } from "./add-story/add-story.component";
 import { StoriesComponent } from "./stories/stories.component";
 import { StoryComponent } from "./story/story.component";
+import { MatchedStoriesComponent } from "./matched-stories/matched-stories.component";
+import { MatchedStoryComponent } from "./matched-story/matched-story.component";
 
 const routes: Routes = [
-  { path: "", component: LocationComponent, canActivate: [AuthGuard] },
+  { path: "", component: LocationComponent },
   {
     path: "createStory",
-    component: AddStoryComponent,
-    canActivate: [AuthGuard]
+    component: AddStoryComponent
   },
   {
     path: "stories",
-    component: StoriesComponent,
-    canActivate: [AuthGuard]
+    component: StoriesComponent
   },
   {
     path: "story/:userId/:storyId",
-    component: StoryComponent,
-    canActivate: [AuthGuard]
+    component: StoryComponent
+  },
+  {
+    path: "matches/stories/:matchedUserId",
+    component: MatchedStoriesComponent
+  },
+  {
+    path: "matches/story/:matchedUserId/:storyId",
+    component: MatchedStoryComponent
   }
 ];
 

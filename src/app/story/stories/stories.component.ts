@@ -8,10 +8,11 @@ import { AppState } from "../../_reducers";
 import { Story } from "../../_models/story.model";
 import { SearchDistance } from "../../_models/search-distance.model";
 import { CoordinatesById } from "../../_models/coordinatesById";
+import { MatchQuery } from "../../_models/match-query.model";
 // selectors
 import { selectStoryList } from "../story.selector";
 // actions
-import { MyStoriesRequested } from "../story.actions";
+import { MyStoriesRequested, MatchOtherUsersStarted } from "../story.actions";
 
 @Component({
   selector: "app-stories",
@@ -31,9 +32,12 @@ export class StoriesComponent implements OnInit {
   // helpers
   createCoordinatesById(storyList: Story[]) {
     const coordinatesById: CoordinatesById = {};
+
     storyList.forEach(story => {
       coordinatesById[story._id] = story.geometry.coordinates;
     });
+
+    this.coordinatesById = coordinatesById;
   }
 
   // store & api calls
@@ -50,5 +54,16 @@ export class StoriesComponent implements OnInit {
         this.store.dispatch(new MyStoriesRequested());
       })
     );
+  }
+
+  // events
+  searchForFriendsByDistance(form: SearchDistance) {
+    const matchQuery: MatchQuery = {
+      coordinates: this.coordinatesById[form.storyId],
+      maxDistance: parseInt(form.distances),
+      unit: form.distanceType
+    };
+
+    this.store.dispatch(new MatchOtherUsersStarted({ matchQuery }));
   }
 }

@@ -8,7 +8,7 @@ import { AppState } from "../_reducers";
 import { HttpRes } from "../_models/http-res.model";
 import { Story } from "../_models/story.model";
 import { StoryImage } from "../_models/story-image";
-
+import { MatchQuery } from "../_models/match-query.model";
 // services
 import { HttpService } from "./http.service";
 // selectors
@@ -20,6 +20,7 @@ import {
   AddStoryImageStarted,
   AddStoryImageFinished
 } from "../story/story.actions";
+import { OpenModal } from "../core/modals/modal.actions";
 
 @Injectable()
 export class StoryService {
@@ -60,7 +61,7 @@ export class StoryService {
   }
 
   // api calls
-  getStories(): Observable<HttpRes> {
+  getStories(): Observable<HttpRes | null> {
     if (!this.userId) return of(null);
 
     return this.httpService
@@ -68,7 +69,7 @@ export class StoryService {
       .pipe(catchError(err => this.handleError(err)));
   }
 
-  createStory(story: Story): Observable<HttpRes> {
+  createStory(story: Story): Observable<HttpRes | null> {
     if (!this.userId) return of(null);
 
     this.store.dispatch(new AddStoryStarted());
@@ -87,7 +88,10 @@ export class StoryService {
       );
   }
 
-  addImageToStory(storyImg: StoryImage, storyId: string): Observable<HttpRes> {
+  addImageToStory(
+    storyImg: StoryImage,
+    storyId: string
+  ): Observable<HttpRes | null> {
     if (!this.userId) return of(null);
 
     this.store.dispatch(new AddStoryImageStarted());
@@ -108,5 +112,36 @@ export class StoryService {
         }),
         catchError(err => this.handleError(err))
       );
+  }
+
+  matchOtherUsers(matchQuery: MatchQuery): Observable<HttpRes | null> {
+    if (!this.userId) return of(null);
+
+    const { unit, maxDistance, coordinates } = matchQuery;
+
+    const lng = coordinates[0];
+    const lat = coordinates[1];
+
+    const url = `story/match/${
+      this.userId
+    }?lat=${lat}&lng=${lng}&unit=${unit}&maxDistance=${maxDistance}`;
+
+    return this.httpService.httpGetRequest(url).pipe(
+      tap((res: HttpRes) => {
+        const { payload } = res;
+        this.store.dispatch(
+          new OpenModal({ modalType: "matchUser", data: payload })
+        );
+      }),
+      catchError(err => this.handleError(err.error))
+    );
+  }
+
+  getOtherPersonsStories(matchedUserId: string): Observable<HttpRes | null> {
+    if (!this.userId) return of(null);
+
+    return this.httpService
+      .httpGetRequest(`matched/story/${this.userId}/${matchedUserId}`)
+      .pipe(catchError(err => this.handleError(err)));
   }
 }

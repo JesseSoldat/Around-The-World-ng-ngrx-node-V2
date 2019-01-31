@@ -36,6 +36,7 @@ import { environment } from "src/environments/environment";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { ImageDetailModalComponent } from "./modals/image-detail-modal/image-detail-modal.component";
 import { ModalManagerComponent } from "./modals/modal-manager/modal-manager.component";
+import { MatchOthersModalComponent } from "./modals/match-others-modal/match-others-modal.component";
 
 @NgModule({
   imports: [
@@ -60,7 +61,8 @@ import { ModalManagerComponent } from "./modals/modal-manager/modal-manager.comp
     ToastrModule,
     NavbarComponent,
     ModalManagerComponent,
-    ImageDetailModalComponent
+    ImageDetailModalComponent,
+    MatchOthersModalComponent
   ],
   providers: [
     HttpService,
@@ -73,7 +75,8 @@ import { ModalManagerComponent } from "./modals/modal-manager/modal-manager.comp
   declarations: [
     NavbarComponent,
     ImageDetailModalComponent,
-    ModalManagerComponent
+    ModalManagerComponent,
+    MatchOthersModalComponent
   ]
 })
 export class CoreModule {}
