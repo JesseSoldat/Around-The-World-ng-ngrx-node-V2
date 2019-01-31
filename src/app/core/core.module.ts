@@ -26,6 +26,7 @@ import { AppRoutingModule } from "../app-routing.module";
 import { HttpService } from "../_services/http.service";
 import { AuthService } from "../_services/auth.service";
 import { StoryService } from "../_services/story.service";
+import { FriendService } from "../_services/friend.service";
 // interceptors
 import { AuthInterceptor } from "../_services/interceptors/auth.interceptor";
 // guards
@@ -68,6 +69,7 @@ import { MatchOthersModalComponent } from "./modals/match-others-modal/match-oth
     HttpService,
     AuthService,
     StoryService,
+    FriendService,
     AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: RouterStateSerializer, useClass: CustomSerializer }

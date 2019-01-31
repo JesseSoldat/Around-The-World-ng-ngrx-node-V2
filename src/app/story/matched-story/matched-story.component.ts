@@ -6,8 +6,10 @@ import { Store, select } from "@ngrx/store";
 import { AppState } from "../../_reducers";
 // selectors
 import { selectOtherPersonsStory } from "../story.selector";
+import { selectFriends } from "../../friend/friend.selector";
 // actions
 import { OtherPersonsStoriesRequested } from "../story.actions";
+import { FriendsRequested } from "../../friend/friend.actions";
 // models
 import { Story } from "../../_models/story.model";
 import { Profile } from "../../_models/profile.model";
@@ -47,6 +49,7 @@ export class MatchedStoryComponent implements OnInit {
           this.matchedUserId = params.get("matchedUserId");
           this.storyId = params.get("storyId");
 
+          this.getFriends();
           this.getMatchedUsersStories(this.storyId);
         })
       )
@@ -54,6 +57,19 @@ export class MatchedStoryComponent implements OnInit {
   }
 
   // store / api calls
+  getFriends(): void {
+    this.store
+      .pipe(
+        select(selectFriends),
+        tap((friends: Profile[] | null) => {
+          if (!friends) return this.store.dispatch(new FriendsRequested());
+
+          this.friends = friends;
+        })
+      )
+      .subscribe();
+  }
+
   getMatchedUsersStories(storyId: string): void {
     this.story$ = this.store.pipe(
       select(selectOtherPersonsStory(storyId)),
