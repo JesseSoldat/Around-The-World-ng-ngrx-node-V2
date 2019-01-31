@@ -15,6 +15,7 @@ import { StoriesComponent } from "./stories/stories.component";
 import { StoryComponent } from './story/story.component';
 import { MatchedStoriesComponent } from './matched-stories/matched-stories.component';
 import { MatchedStoryComponent } from './matched-story/matched-story.component';
+import { FriendsPhotosComponent } from './matched-story/friends-photos/friends-photos.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { MatchedStoryComponent } from './matched-story/matched-story.component';
     StoriesComponent,
     StoryComponent,
     MatchedStoriesComponent,
-    MatchedStoryComponent
+    MatchedStoryComponent,
+    FriendsPhotosComponent
   ]
 })
 export class StoryModule {}

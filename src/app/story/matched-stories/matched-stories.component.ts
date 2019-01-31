@@ -4,6 +4,8 @@ import { Observable } from "rxjs";
 import { tap, switchMap } from "rxjs/operators";
 import { Store } from "@ngrx/store";
 import { AppState } from "../../_reducers";
+// models
+import { UserStoryIds } from "../../_models/user-story-ids.model";
 // selectors
 import { selectOtherPersonsStories } from "../story.selector";
 import { Story } from "src/app/_models/story.model";
@@ -49,5 +51,10 @@ export class MatchedStoriesComponent implements OnInit {
         );
       })
     );
+  }
+
+  navigate(ids: UserStoryIds) {
+    const { userId, storyId } = ids;
+    this.router.navigateByUrl(`map/matches/story/${userId}/${storyId}`);
   }
 }
