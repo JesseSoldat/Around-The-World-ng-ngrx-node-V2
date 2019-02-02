@@ -39,7 +39,14 @@ export function friendReducer(state = initialFriendState, action) {
     case FriendActionTypes.FriendError:
       return { ...state, error: payload.error, spinner: false };
 
-    // loading
+    // -- loading --
+
+    // get friend requests
+    case FriendActionTypes.FriendRequestLoaded:
+      return {
+        ...state,
+        friendRequests: [...payload.friendRequests]
+      };
 
     // get friends
     case FriendActionTypes.FriendsRequested:

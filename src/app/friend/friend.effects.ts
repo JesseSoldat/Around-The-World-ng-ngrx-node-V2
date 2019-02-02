@@ -10,7 +10,9 @@ import {
   FriendActionTypes,
   // loading
   FriendsRequested,
-  FriendsLoaded
+  FriendsLoaded,
+  FriendRequestLoaded,
+  FriendRequestRequested
 } from "./friend.actions";
 // services
 import { FriendService } from "../_services/friend.service";
@@ -20,8 +22,8 @@ export class FriendEffects {
   constructor(private action$: Actions, private friendService: FriendService) {}
 
   // helpers
-  handleErrors() {
-    return new FriendError({ error: "Could not fetch the profile" });
+  handleErrors(error) {
+    return new FriendError({ error });
   }
 
   // loading
@@ -33,11 +35,36 @@ export class FriendEffects {
     switchMap(action =>
       this.friendService.getFriends().pipe(
         map((res: HttpRes) => {
-          if (!res) return this.handleErrors();
+          if (res === null)
+            return this.handleErrors("Could not fetch friends.");
 
           return new FriendsLoaded({ friends: res.payload.friends });
         }),
         catchError(err => of(null))
+      )
+    )
+  );
+
+  // get all friend requests
+  @Effect()
+  FriendRequestLoaded$: Observable<
+    FriendRequestLoaded | FriendError
+  > = this.action$.pipe(
+    ofType<FriendRequestRequested>(FriendActionTypes.FriendRequestRequested),
+    switchMap(action =>
+      this.friendService.getAllFriendRequests().pipe(
+        map((res: HttpRes) => {
+          if (res === null)
+            return this.handleErrors("Could not fetch friends requests.");
+
+          const { payload } = res;
+          const { friendRequests } = payload;
+
+          return new FriendRequestLoaded({
+            friendRequests
+          });
+        }),
+        catchError(err => of(err))
       )
     )
   );

@@ -7,7 +7,9 @@ export enum FriendActionTypes {
   FriendError = "FriendError",
   // loading
   FriendsRequested = "FriendsRequested",
-  FriendsLoaded = "FriendsLoaded"
+  FriendsLoaded = "FriendsLoaded",
+  FriendRequestRequested = "FriendRequestRequested",
+  FriendRequestLoaded = "FriendRequestLoaded"
 }
 
 // handle all profile errors
@@ -16,6 +18,8 @@ export class FriendError implements Action {
 
   constructor(public payload: { error: string }) {}
 }
+
+// -- loading --
 
 // get friends
 export class FriendsRequested implements Action {
@@ -28,4 +32,20 @@ export class FriendsLoaded implements Action {
   constructor(public payload: { friends: Profile[] }) {}
 }
 
-export type FriendActions = FriendError | FriendsRequested | FriendsLoaded;
+// get friend request
+export class FriendRequestRequested implements Action {
+  readonly type = FriendActionTypes.FriendRequestRequested;
+}
+
+export class FriendRequestLoaded implements Action {
+  readonly type = FriendActionTypes.FriendRequestLoaded;
+
+  constructor(public payload: { friendRequests: FriendRequest[] }) {}
+}
+
+export type FriendActions =
+  | FriendError
+  | FriendsRequested
+  | FriendsLoaded
+  | FriendRequestRequested
+  | FriendRequestLoaded;

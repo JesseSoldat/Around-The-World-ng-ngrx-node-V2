@@ -6,7 +6,10 @@ import { Store, select } from "@ngrx/store";
 import { AppState } from "../../_reducers";
 // selectors
 import { selectOtherPersonsStory } from "../story.selector";
-import { selectFriends } from "../../friend/friend.selector";
+import {
+  selectFriends,
+  selectMatchedUserStatus
+} from "../../friend/friend.selector";
 // actions
 import { OtherPersonsStoriesRequested } from "../story.actions";
 import { FriendsRequested } from "../../friend/friend.actions";
@@ -40,6 +43,7 @@ export class MatchedStoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRouteParams();
+    this.getFriendRequestStatus();
   }
 
   getRouteParams(): void {
@@ -65,6 +69,18 @@ export class MatchedStoryComponent implements OnInit {
           if (!friends) return this.store.dispatch(new FriendsRequested());
 
           this.friends = friends;
+        })
+      )
+      .subscribe();
+  }
+
+  getFriendRequestStatus(): void {
+    this.store
+      .pipe(
+        select(selectMatchedUserStatus),
+        tap((status: string) => {
+          console.log("Matched User Status:", status);
+          this.status = status;
         })
       )
       .subscribe();

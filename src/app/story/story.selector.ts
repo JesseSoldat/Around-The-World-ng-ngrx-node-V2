@@ -1,5 +1,7 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { StoryState } from "./story.reducer";
+// selectors
+import { selectRouterState } from "../router.selector";
 // models
 import { Story } from "../_models/story.model";
 
@@ -43,3 +45,33 @@ export const selectOtherPersonsStory = (storyId: string) => {
     }
   );
 };
+
+// ------------ router -----------------
+
+//"matches/story/:matchedUserId/:storyId"
+export const selectMatchesStoryPageMatchedUserId = createSelector(
+  selectRouterState,
+  (state: any) => {
+    if (!state) return null;
+
+    return (
+      state &&
+      state.state &&
+      state.state.params &&
+      state.state.params.matchedUserId
+    );
+  }
+);
+
+//"matches/story/:matchedUserId/:storyId"
+export const selectMatchesStoryPageStoryId = createSelector(
+  selectRouterState,
+  (state: any) => {
+    if (!state) return null;
+    console.log("router state", state);
+
+    return (
+      state && state.state && state.state.params && state.state.params.storyId
+    );
+  }
+);

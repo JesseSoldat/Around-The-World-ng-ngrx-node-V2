@@ -37,4 +37,28 @@ module.exports = app => {
       serverRes(res, 400, msg, null);
     }
   });
+
+  // get all friend requests sent or received
+  app.get("/api/friend/requests/:userId", isAuth, isUser, async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const friendRequests = await FriendRequest.find({
+        $or: [{ requester: userId }, { recipient: userId }]
+      })
+        .populate({
+          path: "recipient",
+          select: ["username"]
+        })
+        .populate({
+          path: "requester",
+          select: ["username"]
+        });
+
+      serverRes(res, 200, null, { friendRequests });
+    } catch (err) {
+      console.log("Err: Get Friend Requests", err);
+      const msg = getErrMsg("err", "fetch", "friend request");
+      serverRes(res, 400, msg, null);
+    }
+  });
 };

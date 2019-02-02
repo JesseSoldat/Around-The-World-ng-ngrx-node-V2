@@ -40,9 +40,9 @@ export class FriendService {
       .subscribe();
   }
 
-  handleError(err) {
-    console.error("friend service handleError:", err);
-    this.toastr.error("", err.error.msg, this.toastrOptions);
+  handleError(error) {
+    console.error("friend service handleError:", error.err);
+    this.toastr.error("", error.msg, this.toastrOptions);
     return of(null);
   }
 
@@ -51,11 +51,27 @@ export class FriendService {
   }
 
   // api calls
-  getFriends(): Observable<HttpRes | FriendError | null> {
+  getFriends(): Observable<HttpRes | null> {
     if (!this.userId) return of(null);
 
     return this.httpService
       .httpGetRequest(`friends/${this.userId}`)
-      .pipe(catchError(err => this.handleError(err)));
+      .pipe(
+        catchError(err =>
+          this.handleError({ err: err, msg: "Could not fetch friends" })
+        )
+      );
+  }
+
+  getAllFriendRequests(): Observable<HttpRes | null> {
+    if (!this.userId) return of(null);
+
+    return this.httpService
+      .httpGetRequest(`friend/requests/${this.userId}`)
+      .pipe(
+        catchError(err =>
+          this.handleError({ err: err, msg: "Could not fetch friend requests" })
+        )
+      );
   }
 }
