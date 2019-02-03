@@ -61,4 +61,38 @@ module.exports = app => {
       serverRes(res, 400, msg, null);
     }
   });
+
+  // send a friend request
+  app.post("/api/friend/request/:userId", isAuth, isUser, async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const { friendId } = req.body;
+
+      const friendRequest = new FriendRequest({
+        requester: userId,
+        recipient: friendId,
+        status: "requested"
+      });
+
+      await friendRequest.save();
+
+      const savedFriendRequest = await FriendRequest.findById(friendRequest._id)
+        .populate({
+          path: "recipient",
+          select: ["username"]
+        })
+        .populate({
+          path: "requester",
+          select: ["username"]
+        });
+
+      const msg = "Your friend request has been sent.";
+
+      serverRes(res, 200, msg, { friendRequest: savedFriendRequest });
+    } catch (err) {
+      console.log("Err: Friend Request", err);
+      const msg = "There was an error while sending a friend request.";
+      serverRes(res, 400, msg, null);
+    }
+  });
 };

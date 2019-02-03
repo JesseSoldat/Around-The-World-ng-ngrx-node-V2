@@ -38,6 +38,8 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { ImageDetailModalComponent } from "./modals/image-detail-modal/image-detail-modal.component";
 import { ModalManagerComponent } from "./modals/modal-manager/modal-manager.component";
 import { MatchOthersModalComponent } from "./modals/match-others-modal/match-others-modal.component";
+import { FriendListGroupComponent } from "./navbar/friend-list-group/friend-list-group.component";
+import { FriendBtnGroupComponent } from "./navbar/friend-btn-group/friend-btn-group.component";
 
 @NgModule({
   imports: [
@@ -51,6 +53,7 @@ import { MatchOthersModalComponent } from "./modals/match-others-modal/match-oth
     AngularFireStorageModule,
     // ngrx
     StoreModule.forRoot(reducers, { metaReducers }),
+    StoreRouterConnectingModule.forRoot({ stateKey: "router" }),
     StoreModule.forFeature("modal", modalReducer),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([])
@@ -63,7 +66,9 @@ import { MatchOthersModalComponent } from "./modals/match-others-modal/match-oth
     NavbarComponent,
     ModalManagerComponent,
     ImageDetailModalComponent,
-    MatchOthersModalComponent
+    MatchOthersModalComponent,
+    FriendListGroupComponent,
+    FriendBtnGroupComponent
   ],
   providers: [
     HttpService,
@@ -78,7 +83,9 @@ import { MatchOthersModalComponent } from "./modals/match-others-modal/match-oth
     NavbarComponent,
     ImageDetailModalComponent,
     ModalManagerComponent,
-    MatchOthersModalComponent
+    MatchOthersModalComponent,
+    FriendListGroupComponent,
+    FriendBtnGroupComponent
   ]
 })
 export class CoreModule {}

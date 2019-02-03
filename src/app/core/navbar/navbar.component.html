@@ -33,8 +33,23 @@
     <!-- right links -->
     <ul class="navbar-nav ml-auto" *ngIf="(isAuth$ | async); else isNotAuth">
       <!-- logged in links -->
-      <app-link linkName="Map" icon="fas fa-map"></app-link>
-      <app-link linkName="Stories" icon="fas fa-atlas"></app-link>
+      <app-link linkName="Map" icon="fas fa-map mr-2"></app-link>
+      <app-link linkName="Stories" icon="fas fa-atlas mr-2"></app-link>
+
+      <!-- small screens only -->
+      <app-friend-list-group
+        (friendRequest)="sendFriendRequests()"
+        (logout)="logout()"
+        [requestLength]="requestLength"
+      ></app-friend-list-group>
+
+      <!-- medium to large screens -->
+      <app-friend-btn-group
+        (friendRequest)="sendFriendRequests()"
+        (logout)="logout()"
+        [requestLength]="requestLength"
+      >
+      </app-friend-btn-group>
     </ul>
 
     <!-- logged out links -->

@@ -38,7 +38,15 @@
         <ngb-panel title="Photos">
           <ng-template ngbPanelContent>
             <!-- photos -->
-            <div *ngIf="status !== 'statusLoading'">
+            <div *ngIf="(smallSpinner$ | async); else showFriendsPhotos">
+              <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                  <i class="fas fa-spinner fa-2x fa-spin my-2"></i>
+                </div>
+              </div>
+            </div>
+            <!-- loading -->
+            <ng-template #showFriendsPhotos>
               <app-friends-photos
                 (viewImage)="viewImage($event)"
                 (sendFriendRequest)="sendFriendRequest()"
@@ -47,13 +55,7 @@
                 [status]="status"
               >
               </app-friends-photos>
-            </div>
-            <!-- loading -->
-            <div class="row" *ngIf="status === 'statusLoading'">
-              <div class="col-12 d-flex justify-content-center">
-                <i class="fas fa-spinner fa-2x fa-spin my-2"></i>
-              </div>
-            </div>
+            </ng-template>
           </ng-template>
         </ngb-panel>
       </ngb-accordion>

@@ -12,7 +12,9 @@ import {
   FriendsRequested,
   FriendsLoaded,
   FriendRequestLoaded,
-  FriendRequestRequested
+  FriendRequestRequested,
+  SendFriendRequestFinished,
+  SendFriendRequestStarted
 } from "./friend.actions";
 // services
 import { FriendService } from "../_services/friend.service";
@@ -26,7 +28,7 @@ export class FriendEffects {
     return new FriendError({ error });
   }
 
-  // loading
+  // -- loading --
 
   // get all friends
   @Effect()
@@ -67,5 +69,30 @@ export class FriendEffects {
         catchError(err => of(err))
       )
     )
+  );
+
+  // -- overlay --
+
+  // send a friend request
+  @Effect()
+  SendFriendRequestFinished$: Observable<
+    SendFriendRequestFinished | FriendError
+  > = this.action$.pipe(
+    ofType<SendFriendRequestStarted>(
+      FriendActionTypes.SendFriendRequestStarted
+    ),
+    switchMap(action => {
+      console.log("action", action);
+      return this.friendService.sendFriendRequest(action.payload.friendId).pipe(
+        map((res: HttpRes) => {
+          if (!res) return this.handleErrors("Could not send friend request.");
+
+          return new SendFriendRequestFinished({
+            friendRequest: res.payload.friendRequest
+          });
+        }),
+        catchError(err => of(null))
+      );
+    })
   );
 }

@@ -74,4 +74,17 @@ export class FriendService {
         )
       );
   }
+
+  sendFriendRequest(friendId: string): Observable<HttpRes | null> {
+    if (!this.userId) return of(null);
+
+    return this.httpService
+      .httpPostRequest(`friend/request/${this.userId}`, { friendId })
+      .pipe(
+        tap((res: HttpRes) => this.handleSuccess(res.msg)),
+        catchError(err =>
+          this.handleError({ err: err, msg: "Could not send friend requests" })
+        )
+      );
+  }
 }

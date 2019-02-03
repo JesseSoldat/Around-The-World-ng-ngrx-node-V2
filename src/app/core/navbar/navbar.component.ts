@@ -76,5 +76,11 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl(this.brandLink);
   }
 
-  logout() {}
+  sendFriendRequests() {
+    console.log("send request");
+  }
+
+  logout() {
+    console.log("logout");
+  }
 }

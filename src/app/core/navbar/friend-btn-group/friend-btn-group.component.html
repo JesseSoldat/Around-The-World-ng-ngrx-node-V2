@@ -1,0 +1,59 @@
+<div class="d-xs-none d-sm-none d-md-block btn-group mt-2 mx-2">
+  <button
+    class="btn btn-light btn-sm dropdown-toggle d-flex align-items-center"
+    data-toggle="dropdown"
+  >
+    <i class="fas fa-user-friends mr-2"></i>
+    <span class="badge badge-pill badge-danger">{{ requestLength }}</span>
+  </button>
+
+  <!-- dropdown menu -->
+  <div class="dropdown-menu dropdown-menu-right">
+    <!-- friend request -->
+    <!-- no requests -->
+    <button
+      *ngIf="!requestLength"
+      class="dropdown-item cursorNotAllowed my-2"
+      disabled
+      type="button"
+    >
+      <i class="fas fa-user-plus mr-2"></i>
+      <span class="mr-2">Friend Request</span>
+      <span class="badge badge-pill badge-info">{{ requestLength }}</span>
+    </button>
+    <!-- have requests -->
+    <button
+      *ngIf="requestLength"
+      class="dropdown-item cursorPointer my-2"
+      type="button"
+      (click)="onFriendRequest()"
+    >
+      <i class="fas fa-user-plus mr-2"></i>
+      <span class="mr-2">Friend Request</span>
+      <span class="badge badge-pill badge-danger">{{ requestLength }}</span>
+    </button>
+    <!-- view friends -->
+    <button class="dropdown-item cursorPointer mb-2" routerLink="/friends">
+      <i class="fas fa-user-friends mr-2"></i>
+      View Friends
+    </button>
+    <!-- view your profile -->
+    <button
+      routerLink="/profile"
+      class="dropdown-item cursorPointer mb-2"
+      type="button"
+    >
+      <i class="fas fa-user mr-2"></i>
+      View Profile
+    </button>
+    <!-- logout -->
+    <button
+      (click)="onLogout()"
+      class="dropdown-item cursorPointer mb-2"
+      type="button"
+    >
+      <i class="fas fa-sign-out-alt mr-2"></i>
+      <span>Logout</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<span class="d-xs-block d-sm-block d-md-none d-lg-none d-xl-none">
+  <!-- no requests -->
+  <li
+    *ngIf="requestLength === 0"
+    class="nav-item text-muted my-1 cursorNotAllowed"
+    disable
+  >
+    <i class="fas fa-user-plus mr-2"></i>
+    <span class="mr-2">Friend Request</span>
+    <span class="badge badge-pill badge-info">{{ requestLength }}</span>
+  </li>
+
+  <!-- have requests -->
+  <li
+    *ngIf="requestLength"
+    (click)="onFriendRequest()"
+    class="nav-item mb-2 cursorPointer"
+  >
+    <i class="fas fa-user mr-2"></i>
+    <span class="mr-2">Friend Request</span>
+    <span class="badge badge-pill badge-danger">{{ requestLength }}</span>
+  </li>
+
+  <app-link linkName="Friends" icon="fas fa-user-circle mb-2 mr-2"></app-link>
+
+  <app-link linkName="Profile" icon="fas fa-user mb-2 mr-2"></app-link>
+
+  <li class="nav-item cursorPointer mt-1 mb-4" (click)="onLogout()">
+    <i class="fas fa-sign-out-alt mr-2"></i>
+    <span>Logout</span>
+  </li>
+</span>

@@ -6,6 +6,7 @@ import { FriendEffects } from "./friend.effects";
 // modules
 import { SharedModule } from "../shared/shared.module";
 import { FriendRoutingModule } from "./friend-routing.module";
+import { FriendsComponent } from './friends/friends.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { FriendRoutingModule } from "./friend-routing.module";
     EffectsModule.forFeature([FriendEffects])
   ],
   exports: [FriendRoutingModule],
-  declarations: []
+  declarations: [FriendsComponent]
 })
 export class FriendModule {}

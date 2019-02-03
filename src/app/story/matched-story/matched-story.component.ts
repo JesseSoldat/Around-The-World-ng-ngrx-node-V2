@@ -8,11 +8,16 @@ import { AppState } from "../../_reducers";
 import { selectOtherPersonsStory } from "../story.selector";
 import {
   selectFriends,
-  selectMatchedUserStatus
+  selectMatchedUserStatus,
+  selectFriendOverlay,
+  selectLoadingSpinner
 } from "../../friend/friend.selector";
 // actions
 import { OtherPersonsStoriesRequested } from "../story.actions";
-import { FriendsRequested } from "../../friend/friend.actions";
+import {
+  FriendsRequested,
+  SendFriendRequestStarted
+} from "../../friend/friend.actions";
 // models
 import { Story } from "../../_models/story.model";
 import { Profile } from "../../_models/profile.model";
@@ -25,6 +30,7 @@ import { Image } from "../../_models/image.model";
 })
 export class MatchedStoryComponent implements OnInit {
   overlay$: Observable<boolean>;
+  smallSpinner$: Observable<boolean>;
   userId$: Observable<string>;
   story$: Observable<Story>;
   friends: Profile[];
@@ -42,8 +48,18 @@ export class MatchedStoryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.toggleOverlay();
+    this.toggleSmallSpinner();
     this.getRouteParams();
     this.getFriendRequestStatus();
+  }
+
+  toggleOverlay(): void {
+    this.overlay$ = this.store.pipe(select(selectFriendOverlay));
+  }
+
+  toggleSmallSpinner(): void {
+    this.smallSpinner$ = this.store.pipe(select(selectLoadingSpinner));
   }
 
   getRouteParams(): void {
@@ -108,7 +124,14 @@ export class MatchedStoryComponent implements OnInit {
 
   viewImage(imgObj: Image): void {}
 
-  sendFriendRequest(): void {}
+  sendFriendRequest(): void {
+    this.store.dispatch(
+      new SendFriendRequestStarted({
+        friendId: this.matchedUserId,
+        storyId: this.storyId
+      })
+    );
+  }
 
   acceptFriendRequest(): void {}
 }

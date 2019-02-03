@@ -45,7 +45,7 @@ export const selectReceivedFriendRequests = (userId: string) =>
   createSelector(
     selectFriendRequest,
     (requests: FriendRequest[]): FriendRequest[] => {
-      if (!userId || !requests) return null;
+      if (!userId || requests === null) return null;
       return requests.filter(req => req.recipient._id === userId);
     }
   );
@@ -55,7 +55,7 @@ export const selectIsMyFriend = createSelector(
   selectMatchesStoryPageMatchedUserId,
   selectFriends,
   (matchedUserId: string, friends: Profile[]): string => {
-    if (!friends) return null;
+    if (friends === null) return null;
 
     const index: number = friends.findIndex(
       friend => friend._id === matchedUserId
@@ -75,7 +75,7 @@ export const selectReceivedRequestByMatchingUser = createSelector(
     userId: string,
     friendRequests: FriendRequest[]
   ): String => {
-    if (!matchedUserId || !userId || !friendRequests) return null;
+    if (!matchedUserId || !userId || friendRequests === null) return null;
 
     const request = friendRequests.find(
       req => req.recipient._id === userId && req.requester._id === matchedUserId
@@ -90,19 +90,14 @@ export const selectSentFriendRequestToMatchingUser = createSelector(
   selectMatchesStoryPageMatchedUserId,
   selectFriendRequest,
   (matchedUserId: string, friendRequests: FriendRequest[]): String => {
-    if (!matchedUserId || !friendRequests) return null;
+    if (!matchedUserId || friendRequests === null) return null;
 
     let request = friendRequests.find(
       obj => obj.recipient._id === matchedUserId
     );
 
-    // TODO BUG
-    // when friend request has just been sent perform this check
+    console.log("friendRequests", friendRequests);
 
-    // if (!request)
-    //   request = friendRequests.find(req => req.recipient === matchedUserId);
-
-    // status not requested if the request has not been made yet
     return request ? request.status : "didNotSendRequest";
   }
 );

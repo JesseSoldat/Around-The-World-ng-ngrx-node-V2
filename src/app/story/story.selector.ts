@@ -68,7 +68,6 @@ export const selectMatchesStoryPageStoryId = createSelector(
   selectRouterState,
   (state: any) => {
     if (!state) return null;
-    console.log("router state", state);
 
     return (
       state && state.state && state.state.params && state.state.params.storyId

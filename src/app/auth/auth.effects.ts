@@ -24,7 +24,7 @@ export class AuthEffects {
   }
 
   isAuthNav(): void {
-    console.log("path", window.location.pathname);
+    // console.log("path", window.location.pathname);
 
     switch (window.location.pathname) {
       case "/login":
@@ -73,7 +73,6 @@ export class AuthEffects {
   login$ = this.action$.pipe(
     ofType<Login>(AuthActionTypes.LoginAction),
     tap(action => {
-      console.log("login$");
       this.setToLocalStorage(action.payload);
     })
   );
@@ -86,7 +85,6 @@ export class AuthEffects {
 
       // token is expired
       if (isTokenExpired || !user) {
-        console.log("logout");
       } else {
         return of(new Login({ user, token }));
       }
