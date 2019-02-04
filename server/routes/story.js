@@ -100,7 +100,6 @@ module.exports = app => {
     // meters for GeoJSON
     // radians for coordinate pairs.
     const distance = Number(maxDistance);
-    console.log("distance", distance);
 
     // radians = distance / earth radius
     if (unit === "miles") {

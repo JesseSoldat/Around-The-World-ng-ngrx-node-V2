@@ -95,4 +95,54 @@ module.exports = app => {
       serverRes(res, 400, msg, null);
     }
   });
+
+  // accept a friend request
+  app.post(
+    "/api/friend/request/accept/:userId",
+    isAuth,
+    isUser,
+    async (req, res) => {
+      const msg = "There was an error while accepting the friend request.";
+      try {
+        const { userId } = req.params;
+        const { friendId } = req.body;
+
+        const friendRequest = await FriendRequest.findOne({
+          requester: friendId,
+          recipient: userId
+        });
+
+        if (!friendRequest) return serverRes(res, 400, msg, null);
+
+        // save the friend request id before deleting it
+        const friendRequestId = friendRequest._id;
+
+        // change friend status for both the recipient and requestor
+        // delete the friend request
+        const [recipient, requester] = await Promise.all([
+          User.findByIdAndUpdate(
+            userId,
+            { $addToSet: { friends: friendId } },
+            { new: true }
+          ).populate(friendProfile),
+          User.findByIdAndUpdate(
+            friendId,
+            { $addToSet: { friends: userId } },
+            { new: true }
+          ),
+          FriendRequest.findByIdAndRemove(friendRequestId)
+        ]);
+
+        const msg = "The friend request has been accepted.";
+
+        serverRes(res, 200, msg, {
+          friends: recipient.friends,
+          friendRequestId
+        });
+      } catch (err) {
+        console.log("Err: Accept Friend Request", err);
+        serverRes(res, 400, msg, null);
+      }
+    }
+  );
 };

@@ -41,8 +41,14 @@ export class FriendService {
   }
 
   handleError(error) {
+    const messages = {
+      fetch: "There was an error fetching the friend requests",
+      send: "There was an error sending the friend request",
+      accept: "There was an error accepting the friend request"
+    };
     console.error("friend service handleError:", error.err);
-    this.toastr.error("", error.msg, this.toastrOptions);
+
+    this.toastr.error("", messages[error.errType], this.toastrOptions);
     return of(null);
   }
 
@@ -54,13 +60,14 @@ export class FriendService {
   getFriends(): Observable<HttpRes | null> {
     if (!this.userId) return of(null);
 
-    return this.httpService
-      .httpGetRequest(`friends/${this.userId}`)
-      .pipe(
-        catchError(err =>
-          this.handleError({ err: err, msg: "Could not fetch friends" })
-        )
-      );
+    return this.httpService.httpGetRequest(`friends/${this.userId}`).pipe(
+      catchError(err =>
+        this.handleError({
+          err: err,
+          errType: "fetch"
+        })
+      )
+    );
   }
 
   getAllFriendRequests(): Observable<HttpRes | null> {
@@ -70,7 +77,10 @@ export class FriendService {
       .httpGetRequest(`friend/requests/${this.userId}`)
       .pipe(
         catchError(err =>
-          this.handleError({ err: err, msg: "Could not fetch friend requests" })
+          this.handleError({
+            err: err,
+            errType: "fetch"
+          })
         )
       );
   }
@@ -83,7 +93,26 @@ export class FriendService {
       .pipe(
         tap((res: HttpRes) => this.handleSuccess(res.msg)),
         catchError(err =>
-          this.handleError({ err: err, msg: "Could not send friend requests" })
+          this.handleError({
+            err: err,
+            errType: "send"
+          })
+        )
+      );
+  }
+
+  acceptFriendRequest(friendId: string): Observable<HttpRes | null> {
+    if (!this.userId) return of(null);
+
+    return this.httpService
+      .httpPostRequest(`friend/request/accept/${this.userId}`, { friendId })
+      .pipe(
+        tap((res: HttpRes) => this.handleSuccess(res.msg)),
+        catchError(err =>
+          this.handleError({
+            err: err,
+            errType: "accept"
+          })
         )
       );
   }

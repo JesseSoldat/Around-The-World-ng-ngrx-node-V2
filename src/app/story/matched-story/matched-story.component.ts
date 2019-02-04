@@ -16,7 +16,8 @@ import {
 import { OtherPersonsStoriesRequested } from "../story.actions";
 import {
   FriendsRequested,
-  SendFriendRequestStarted
+  SendFriendRequestStarted,
+  AcceptFriendRequestStarted
 } from "../../friend/friend.actions";
 // models
 import { Story } from "../../_models/story.model";
@@ -133,5 +134,9 @@ export class MatchedStoryComponent implements OnInit {
     );
   }
 
-  acceptFriendRequest(): void {}
+  acceptFriendRequest(): void {
+    this.store.dispatch(
+      new AcceptFriendRequestStarted({ friendId: this.matchedUserId })
+    );
+  }
 }

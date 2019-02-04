@@ -25,8 +25,16 @@ export const initialFriendState: FriendState = {
 const sendFriendRequest = (
   prevFriendReq: FriendRequest[],
   newFriendReq: FriendRequest
-) => {
+): FriendRequest[] => {
   return prevFriendReq ? [...prevFriendReq, newFriendReq] : [newFriendReq];
+};
+
+const removeFriendRequest = (
+  prevFriendReq: FriendRequest[],
+  friendReqIdToRemove: string
+): FriendRequest[] => {
+  if (!prevFriendReq) return null;
+  return prevFriendReq.filter(req => req._id !== friendReqIdToRemove);
 };
 
 export function friendReducer(state = initialFriendState, action) {
@@ -71,7 +79,7 @@ export function friendReducer(state = initialFriendState, action) {
         spinner: false
       };
 
-    // -- overlay --
+    // -- small spinner --
 
     // send friend request
     case FriendActionTypes.SendFriendRequestStarted:
@@ -87,6 +95,24 @@ export function friendReducer(state = initialFriendState, action) {
         friendRequests: sendFriendRequest(
           state.friendRequests,
           payload.friendRequest
+        )
+      };
+
+    // accept friend request
+    case FriendActionTypes.AcceptFriendRequestStarted:
+      return {
+        ...state,
+        spinner: true
+      };
+
+    case FriendActionTypes.AcceptFriendRequestFinished:
+      return {
+        ...state,
+        spinner: false,
+        friends: [...payload.friends],
+        friendRequests: removeFriendRequest(
+          state.friendRequests,
+          payload.friendRequestId
         )
       };
 

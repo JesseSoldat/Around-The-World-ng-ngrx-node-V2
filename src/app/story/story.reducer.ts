@@ -1,4 +1,6 @@
 import { StoryActionTypes } from "./story.actions";
+import { AuthActionTypes } from "../auth/auth.actions";
+// models
 import { Story } from "../_models/story.model";
 
 export interface StoryState {
@@ -38,6 +40,15 @@ const addImageToStory = (prevStories, update) => {
 export function storyReducer(state = initialStoryState, action) {
   const { type, payload } = action;
   switch (type) {
+    // logout
+    case AuthActionTypes.LogoutAction:
+      return {
+        overlay: false,
+        error: null,
+        stories: null,
+        otherPersonsStories: null
+      };
+
     // -- loading --
     case StoryActionTypes.MyStoriesLoaded:
       return { ...state, stories: [...payload.stories] };
