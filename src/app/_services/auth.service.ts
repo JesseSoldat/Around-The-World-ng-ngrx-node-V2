@@ -4,7 +4,7 @@ import { tap, catchError } from "rxjs/operators";
 import { ToastrService } from "ngx-toastr";
 import { Store } from "@ngrx/store";
 import { AppState } from "../_reducers";
-import { Register, Login } from "../auth/auth.actions";
+import { Register, Login, Logout } from "../auth/auth.actions";
 // models
 import { Auth } from "../_models/auth.model";
 import { User } from "../_models/user.model";
@@ -80,5 +80,9 @@ export class AuthService {
       }),
       catchError(err => this.handleError(err.error))
     );
+  }
+
+  logout(): void {
+    this.store.dispatch(new Logout({ user: null }));
   }
 }

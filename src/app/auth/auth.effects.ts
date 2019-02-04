@@ -4,7 +4,7 @@ import { tap } from "rxjs/operators";
 import { of, defer } from "rxjs";
 // ngrx
 import { Actions, Effect, ofType } from "@ngrx/effects";
-import { Register, Login, AuthActionTypes } from "./auth.actions";
+import { Register, Login, AuthActionTypes, Logout } from "./auth.actions";
 // models
 import { User } from "../_models/user.model";
 // utils
@@ -53,7 +53,7 @@ export class AuthEffects {
 
   getFromLocalStorage() {
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user: User = JSON.parse(localStorage.getItem("user"));
       const token = localStorage.getItem("token");
       return { user, token };
     } catch {
@@ -74,6 +74,21 @@ export class AuthEffects {
     ofType<Login>(AuthActionTypes.LoginAction),
     tap(action => {
       this.setToLocalStorage(action.payload);
+    })
+  );
+
+  @Effect({ dispatch: false })
+  logout$ = this.action$.pipe(
+    ofType<Logout>(AuthActionTypes.LogoutAction),
+    tap(action => {
+      try {
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        this.notAuthNav();
+      } catch (err) {
+        this.notAuthNav();
+        console.log(localDeleteErr);
+      }
     })
   );
 
