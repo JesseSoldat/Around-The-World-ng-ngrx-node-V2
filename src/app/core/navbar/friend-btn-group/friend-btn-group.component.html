@@ -4,7 +4,9 @@
     data-toggle="dropdown"
   >
     <i class="fas fa-user-friends mr-2"></i>
-    <span class="badge badge-pill badge-danger">{{ requestLength }}</span>
+    <span *ngIf="requestLength" class="badge badge-pill badge-danger">{{
+      requestLength
+    }}</span>
   </button>
 
   <!-- dropdown menu -->
@@ -18,8 +20,10 @@
       type="button"
     >
       <i class="fas fa-user-plus mr-2"></i>
-      <span class="mr-2">Friend Request</span>
-      <span class="badge badge-pill badge-info">{{ requestLength }}</span>
+      <span class="mr-3">Friend Request</span>
+      <span class="list-badge badge badge-pill badge-info">{{
+        requestLength
+      }}</span>
     </button>
     <!-- have requests -->
     <button
@@ -30,7 +34,9 @@
     >
       <i class="fas fa-user-plus mr-2"></i>
       <span class="mr-2">Friend Request</span>
-      <span class="badge badge-pill badge-danger">{{ requestLength }}</span>
+      <span class="list-badge badge badge-pill badge-danger">{{
+        requestLength
+      }}</span>
     </button>
     <!-- view friends -->
     <button class="dropdown-item cursorPointer mb-2" routerLink="/friends">

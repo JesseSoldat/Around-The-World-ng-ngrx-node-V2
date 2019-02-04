@@ -19,6 +19,7 @@ import { BottomRowBtnComponent } from "./components/bottom-row-btn/bottom-row-bt
 import { TopRowBtnComponent } from "./components/top-row-btn/top-row-btn.component";
 import { SpinnerComponent } from "./components/spinner/spinner.component";
 import { ImgCardComponent } from "./components/img-card/img-card.component";
+import { NoDataComponent } from "./components/no-data/no-data.component";
 
 @NgModule({
   imports: [CommonModule, RouterModule, ReactiveFormsModule, NgbModule],
@@ -34,7 +35,8 @@ import { ImgCardComponent } from "./components/img-card/img-card.component";
     BottomRowBtnComponent,
     TopRowBtnComponent,
     SpinnerComponent,
-    ImgCardComponent
+    ImgCardComponent,
+    NoDataComponent
   ],
   exports: [
     CommonModule,
@@ -51,7 +53,8 @@ import { ImgCardComponent } from "./components/img-card/img-card.component";
     ListCardComponent,
     BottomRowBtnComponent,
     SpinnerComponent,
-    ImgCardComponent
+    ImgCardComponent,
+    NoDataComponent
   ]
 })
 export class SharedModule {}

@@ -13,6 +13,7 @@ import { MatchQuery } from "../../_models/match-query.model";
 import { selectStoryList } from "../story.selector";
 // actions
 import { MyStoriesRequested, MatchOtherUsersStarted } from "../story.actions";
+import { NoDataInputs } from "src/app/_models/no-data-inputs.model";
 
 @Component({
   selector: "app-stories",
@@ -22,6 +23,12 @@ import { MyStoriesRequested, MatchOtherUsersStarted } from "../story.actions";
 export class StoriesComponent implements OnInit {
   stories$: Observable<Story[]>;
   coordinatesById: CoordinatesById;
+  noDataInputs: NoDataInputs = {
+    title: "No Stories",
+    text: "Create some stories to get started matching with others",
+    btnIcon: "fas fa-map mr-2",
+    btnText: "Go to Map"
+  };
 
   constructor(private store: Store<AppState>, private router: Router) {}
 
@@ -65,5 +72,9 @@ export class StoriesComponent implements OnInit {
     };
 
     this.store.dispatch(new MatchOtherUsersStarted({ matchQuery }));
+  }
+
+  goToMap() {
+    this.router.navigateByUrl("/map");
   }
 }

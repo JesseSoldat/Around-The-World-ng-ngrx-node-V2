@@ -4,7 +4,7 @@
 
     <div class="row">
       <div class="bulletinBg col-12 mx-auto">
-        <div *ngIf="(stories$ | async) as stories">
+        <div *ngIf="(stories$ | async) as stories; else showSpinner">
           <div class="row">
             <!-- have stories -->
             <div class="card col-10 mx-auto my-4" *ngFor="let story of stories">
@@ -14,7 +14,17 @@
               ></app-list-card>
             </div>
           </div>
+
+          <app-no-data
+            *ngIf="!stories.length"
+            [data]="noDataInputs"
+            (btnClick)="goToMap()"
+          ></app-no-data>
         </div>
+
+        <ng-template #showSpinner>
+          <app-spinner></app-spinner>
+        </ng-template>
       </div>
     </div>
   </div>
