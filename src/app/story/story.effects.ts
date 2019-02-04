@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { switchMap, map, catchError } from "rxjs/operators";
+import { Router } from "@angular/router";
+import { switchMap, map, catchError, tap } from "rxjs/operators";
 import { Observable, of } from "rxjs";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
@@ -17,7 +18,8 @@ import {
   MatchOtherUsersFinished,
   MatchOtherUsersStarted,
   OtherPersonsStoriesLoaded,
-  OtherPersonsStoriesRequested
+  OtherPersonsStoriesRequested,
+  AddStoryFinished
 } from "./story.actions";
 
 @Injectable()
@@ -25,7 +27,8 @@ export class StoryEffects {
   constructor(
     private action$: Actions,
     private storyService: StoryService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private router: Router
   ) {}
 
   // helpers
@@ -47,6 +50,14 @@ export class StoryEffects {
         catchError(err => of(null))
       )
     )
+  );
+
+  @Effect({ dispatch: false })
+  addStoryFinished$ = this.action$.pipe(
+    ofType<AddStoryFinished>(StoryActionTypes.AddStoryFinished),
+    tap(action => {
+      this.router.navigateByUrl("/map/stories");
+    })
   );
 
   @Effect()

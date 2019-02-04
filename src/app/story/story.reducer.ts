@@ -17,8 +17,9 @@ export const initialStoryState: StoryState = {
 
 // helpers
 const addStoryToStories = (prevStories, newStory) => {
-  const stories = prevStories ? prevStories : [];
+  let stories = prevStories ? [...prevStories] : [];
   stories.unshift(newStory);
+
   return stories;
 };
 
