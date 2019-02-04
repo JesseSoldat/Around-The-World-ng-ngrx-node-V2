@@ -21,6 +21,10 @@ import {
   AddStoryImageFinished
 } from "../story/story.actions";
 import { OpenModal } from "../core/modals/modal.actions";
+import { FriendsLoaded } from "../friend/friend.actions";
+// models
+import { StoryMatch } from "../_models/story-match.model";
+import { Profile } from "../_models/profile.model";
 
 @Injectable()
 export class StoryService {
@@ -129,8 +133,14 @@ export class StoryService {
     return this.httpService.httpGetRequest(url).pipe(
       tap((res: HttpRes) => {
         const { payload } = res;
+
+        const friends: Profile[] = payload.friends;
+        const storyMatch: StoryMatch[] = payload.matches;
+
+        this.store.dispatch(new FriendsLoaded({ friends }));
+
         this.store.dispatch(
-          new OpenModal({ modalType: "matchUser", data: payload })
+          new OpenModal({ modalType: "matchUser", data: storyMatch })
         );
       }),
       catchError(err => this.handleError(err.error))

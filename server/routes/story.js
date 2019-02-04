@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 // models
 const Story = require("../models/story");
+const User = require("../models/user");
 // middleware
 const isAuth = require("../middleware/isAuth");
 const isUser = require("../middleware/isUser");
@@ -175,9 +176,28 @@ module.exports = app => {
       const maxDistance = convertToRadiansFromMilesOrKm(req.query);
       const lng = parseFloat(req.query.lng);
       const lat = parseFloat(req.query.lat);
-      const match = await geoMatchGroupSort(lng, lat, maxDistance, user);
 
-      serverRes(res, 200, null, { match });
+      // queries
+      const friendProfile = {
+        path: "friends",
+        select: [
+          "username",
+          "avatar",
+          "email",
+          "gender",
+          "hometown",
+          "birthDate",
+          "about",
+          "occupation"
+        ]
+      };
+
+      const [friends, matches] = await Promise.all([
+        User.findById(userId, { _id: 1 }).populate(friendProfile),
+        geoMatchGroupSort(lng, lat, maxDistance, user)
+      ]);
+
+      serverRes(res, 200, null, { friends: friends.friends, matches });
     } catch (err) {
       console.log("Err: Match Location", err);
       const msg = getErrMsg("err", "match", "other users");

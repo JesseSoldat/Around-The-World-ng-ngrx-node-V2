@@ -1,11 +1,16 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
-import { first } from "rxjs/operators";
+import { first, tap } from "rxjs/operators";
 import { Observable } from "rxjs";
-import { Store } from "@ngrx/store";
+import { Store, select } from "@ngrx/store";
 import { AppState } from "../../../_reducers";
+// actions
 import { CloseModal } from "../modal.actions";
+// selectors
+import { selectNonFriendMatchedUsers } from "../../../friend/friend.selector";
+// models
+import { StoryMatch } from "../../../_models/story-match.model";
 
 @Component({
   selector: "app-match-others-modal",
@@ -15,8 +20,8 @@ import { CloseModal } from "../modal.actions";
 export class MatchOthersModalComponent implements OnInit {
   @ViewChild("modalRef") modalRef;
   @Input() modalType$: Observable<string | null>;
-  @Input() modalData$: Observable<any>;
-  data;
+  @Input() modalData$: Observable<StoryMatch[]>;
+  data: StoryMatch[];
 
   constructor(
     private modalService: NgbModal,
@@ -27,10 +32,19 @@ export class MatchOthersModalComponent implements OnInit {
   ngOnInit() {
     this.modalType$.subscribe(type => {
       if (type === "matchUser") {
-        this.modalData$.pipe(first()).subscribe(data => {
-          this.data = data;
-          this.openModal();
-        });
+        this.modalData$
+          .pipe(first())
+          .subscribe((matchedUsers: StoryMatch[]) => {
+            this.store
+              .pipe(
+                select(selectNonFriendMatchedUsers(matchedUsers)),
+                tap((filteredMatches: StoryMatch[]) => {
+                  this.data = filteredMatches;
+                  this.openModal();
+                })
+              )
+              .subscribe();
+          });
       }
     });
   }

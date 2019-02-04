@@ -1,11 +1,11 @@
 <ng-template #modalRef let-modal>
   <div class="modal-header">
-    <h4 *ngIf="data.match.length === 0" class="modal-title">
+    <h4 *ngIf="data.length === 0" class="modal-title">
       No Matches Found
     </h4>
 
-    <h4 *ngIf="data.match.length" class="modal-title">
-      You Matched {{ data.match.length }} Users
+    <h4 *ngIf="data.length" class="modal-title">
+      You Matched {{ data.length }} Users
     </h4>
 
     <button
@@ -18,9 +18,9 @@
     </button>
   </div>
 
-  <div *ngIf="data?.match.length; else noMatches" class="modal-body">
+  <div *ngIf="data?.length; else noMatches" class="modal-body">
     <ul class="list-group list-group-flush">
-      <li class="list-group-item" *ngFor="let match of data.match">
+      <li class="list-group-item" *ngFor="let match of data">
         <span>
           {{ match.userInfo[0].username | titlecase }} has {{ match.length }}
           {{ match.length === 1 ? "story" : "stories" }} found near your

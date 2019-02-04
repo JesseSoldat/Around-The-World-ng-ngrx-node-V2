@@ -6,6 +6,7 @@ import { Profile } from "../_models/profile.model";
 // selectors
 import { selectUserId } from "../auth/auth.selectors";
 import { selectMatchesStoryPageMatchedUserId } from "../story/story.selector";
+import { StoryMatch } from "../_models/story-match.model";
 
 // friend state
 export const selectFriendState = createFeatureSelector<FriendState>("friend");
@@ -118,3 +119,31 @@ export const selectMatchedUserStatus = createSelector(
     return "statusLoading";
   }
 );
+
+// filter friends from matchedUsers list
+export const selectNonFriendMatchedUsers = (matchedUsers: StoryMatch[]) =>
+  createSelector(
+    selectFriends,
+    (friends: Profile[]): StoryMatch[] => {
+      if (matchedUsers === null || friends === null) return null;
+
+      // console.log("friends", friends);
+      // console.log("matchedUsers", matchedUsers);
+
+      const friendIdsArray = friends.map((friend: Profile) => friend._id);
+
+      const filteredMatchedUsers = matchedUsers.filter(
+        (matchedUser: StoryMatch) => {
+          const index = friendIdsArray.findIndex(
+            (id: string) => id === matchedUser.userInfo[0]._id
+          );
+
+          if (index === -1) return matchedUser;
+        }
+      );
+
+      // console.log("filteredMatchedUsers", filteredMatchedUsers);
+
+      return filteredMatchedUsers;
+    }
+  );
