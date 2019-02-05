@@ -44,5 +44,7 @@ export class FriendsComponent implements OnInit {
   }
 
   // events
-  searchForFriends() {}
+  searchForFriends() {
+    this.router.navigateByUrl("/map/stories");
+  }
 }

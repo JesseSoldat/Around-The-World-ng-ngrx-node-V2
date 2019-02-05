@@ -27,6 +27,7 @@ import { HttpService } from "../_services/http.service";
 import { AuthService } from "../_services/auth.service";
 import { StoryService } from "../_services/story.service";
 import { FriendService } from "../_services/friend.service";
+import { ProfileService } from "../_services/profile.service";
 // interceptors
 import { AuthInterceptor } from "../_services/interceptors/auth.interceptor";
 // guards
@@ -75,6 +76,7 @@ import { FriendBtnGroupComponent } from "./navbar/friend-btn-group/friend-btn-gr
     AuthService,
     StoryService,
     FriendService,
+    ProfileService,
     AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: RouterStateSerializer, useClass: CustomSerializer }
