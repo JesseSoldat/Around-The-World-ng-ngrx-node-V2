@@ -44,6 +44,7 @@ export function friendReducer(state = initialFriendState, action) {
     // clear all state
     case AuthActionTypes.LogoutAction:
       return {
+        overlay: false,
         friends: null,
         friendRequests: null,
         friendRequestsDetails: null,
@@ -53,7 +54,12 @@ export function friendReducer(state = initialFriendState, action) {
 
     // handle all errors
     case FriendActionTypes.FriendError:
-      return { ...state, error: payload.error, spinner: false };
+      return {
+        ...state,
+        error: payload.error,
+        spinner: false,
+        overlay: false
+      };
 
     // -- loading --
 

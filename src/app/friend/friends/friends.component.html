@@ -1,3 +1,47 @@
-<p>
-  friends works!
-</p>
+<!-- heading -->
+<app-heading heading="My Friends"></app-heading>
+<!-- content -->
+<div class="row">
+  <div class="col-11 col-sm-10 col-md-9 col-lg-8 mx-auto">
+    <div class="bulletinBg px-2">
+      <div *ngIf="(friends$ | async) as friends; else loading">
+        <!-- have friends -->
+        <div class="row px-3" *ngIf="friends.length > 0">
+          <div
+            class="card col-11 col-sm-10 col-md-4 col-lg-3 mx-auto my-4"
+            *ngFor="let friend of friends"
+          >
+            <div class="card-body">
+              <div
+                class="row d-flex flex-column justify-content-around align-items-center flex-wrap"
+              >
+                <img
+                  [src]="
+                    friend.avatar
+                      ? friend.avatar
+                      : '../../../assets/img/userdefault.png'
+                  "
+                  alt="user avatar"
+                  class="img-fluid img-thumbnail"
+                />
+                <h3 class="card-title mt-4">{{ friend.username }}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- no friends -->
+        <app-no-data
+          *ngIf="friends.length === 0"
+          [data]="noDataInputs"
+          (btnClick)="searchForFriends()"
+        ></app-no-data>
+      </div>
+
+      <!-- loading -->
+      <ng-template #loading>
+        <app-spinner></app-spinner>
+      </ng-template>
+    </div>
+  </div>
+</div>
